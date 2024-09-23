@@ -5,5 +5,6 @@ list_items=("kfr_pooled_pooled_p25"  "kfr_white_male_p25"  "kfr_black_male_p25" 
 
 # Use GNU parallel to run all tasks in parallel
 # coupled-bootstrap-0.9
-parallel -j 5 python empirical_exercise.py --simulator-name coupled_bootstrap-0.9 --methods all --nsim 1000 --est_var {1} '>' logs/output_{1}.log '2>' logs/error_{1}.log ::: "${list_items[@]}"
+parallel -j 6 python empirical_exercise.py --simulator-name coupled_bootstrap-0.9 --methods all --nsim 1000 --est_var {1} '>' logs/output_{1}.log '2>' logs/error_{1}.log ::: "${list_items[@]}"
+
 

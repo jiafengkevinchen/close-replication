@@ -24,7 +24,12 @@ from residualize import residualize
 
 
 def calibrated_simulation(
-    est_var, simulator_name, methods, nsim, data_dir="data/simulated_posterior_means"
+    est_var,
+    simulator_name,
+    methods,
+    nsim,
+    data_dir="data/simulated_posterior_means",
+    starting_seed=94301,
 ):
     today = datetime.datetime.now().strftime("%Y-%m-%d")
     out_dir = f"{data_dir}/{simulator_name}/{est_var}"
@@ -63,7 +68,10 @@ def calibrated_simulation(
 
     oracle = make_oracle(simulator, covariate_fn) if not is_coupled_bootstrap else None
 
-    for seed in tqdm(range(94301, 94301 + nsim), desc=f"{est_var}", total=nsim):
+    for seed in tqdm(range(starting_seed, starting_seed + nsim), desc=f"{est_var}", total=nsim):
+
+        if os.path.exists(out_dir + f"/{seed}.feather"):
+            continue
 
         sample = simulator(seed)
 
@@ -201,11 +209,14 @@ def compute_posterior_means_subsample(
 @click.option("--methods", default="all", type=str)
 @click.option("--nsim", default=1000, type=int)
 @click.option("--data-dir", default="data/simulated_posterior_means", type=str)
-def main(est_var, simulator_name, methods, nsim, data_dir):
+@click.option("--starting-seed", default=94301, type=int)
+def main(est_var, simulator_name, methods, nsim, data_dir, starting_seed):
     methods_list = list(method_features.keys())
     methods_list.remove("close_npmle_norm")
     methods = methods.split(",") if methods != "all" else methods_list
-    calibrated_simulation(est_var, simulator_name, methods, nsim, data_dir=data_dir)
+    calibrated_simulation(
+        est_var, simulator_name, methods, nsim, data_dir=data_dir, starting_seed=starting_seed
+    )
 
 
 if __name__ == "__main__":
