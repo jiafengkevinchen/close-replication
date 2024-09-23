@@ -98,7 +98,6 @@ def calibrated_simulation(
 
     with open(out_dir + "/meta.json", "w", encoding="utf-8") as f:
         json.dump(meta, f)
-    return posterior_mean_df
 
 
 def get_posterior_means(sample, est_var, methods, partial_out, is_coupled_bootstrap, oracle):
