@@ -93,6 +93,9 @@ def calibrated_simulation(
         for c in posterior_mean_df_no_cov.columns:
             if c not in posterior_mean_df.columns:
                 posterior_mean_df[c] = posterior_mean_df_no_cov[c]
+        if not is_coupled_bootstrap:
+            posterior_mean_df["true_covariate_fn"] = covariate_fn
+            posterior_mean_df["truth"] = covariate_fn + posterior_mean_df["truth_residualized"]
 
         posterior_mean_df.to_feather(out_dir + f"/{seed}.feather")
 
@@ -195,7 +198,8 @@ def compute_posterior_means_subsample(
 
     if not is_coupled_bootstrap and (oracle is not None):
         posterior_mean_df["oracle"] = oracle(estimates + covariate_fn, standard_errors)
-        posterior_mean_df["truth"] = subsample["_sampled_residualized_parameter"] + covariate_fn
+        posterior_mean_df["truth_residualized"] = subsample["_sampled_residualized_parameter"]
+        # posterior_mean_df["truth"] = true_covariate_fn + posterior_mean_df["truth_residualized"]
     if is_coupled_bootstrap:
         posterior_mean_df["validation"] = subsample["_validation_data"]
         posterior_mean_df["validation_se"] = subsample["_validation_standard_errors"]
