@@ -106,7 +106,8 @@ def get_posterior_means(sample, est_var, methods, partial_out, is_coupled_bootst
         # `compute_posterior_means_subsample` on each commuting zone
         posterior_mean_df = []
         for cz in sample["czname"].unique():
-            subsample = sample.loc[sample["czname"] == cz]
+            idx = sample["czname"] == cz
+            subsample = sample.loc[idx]
             posterior_mean_df_ = compute_posterior_means_subsample(
                 subsample, est_var, is_coupled_bootstrap, methods, partial_out, oracle
             )
