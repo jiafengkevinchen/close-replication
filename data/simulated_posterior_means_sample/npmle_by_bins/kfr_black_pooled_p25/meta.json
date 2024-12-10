@@ -1,0 +1,1 @@
+{"est_var": "kfr_black_pooled_p25", "simulator_name": "npmle_by_bins", "methods": ["indep_npmle", "indep_gauss", "close_npmle", "close_gauss", "close_gauss_parametric"], "nsim": 1, "date": "2024-12-10", "is_coupled_bootstrap": false}
