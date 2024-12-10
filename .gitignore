@@ -7,3 +7,5 @@ test.py
 test.pdf
 generate_simulated_data.py
 scrap.ipynb
+.DS_Store
+*ipynb
