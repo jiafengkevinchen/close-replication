@@ -3,9 +3,7 @@
 import pandas as pd
 import numpy as np
 from build_data import est_vars as EST_VARS
-from postprocessing.score import mean_squared_error, rank_score_within_cz
 from postprocessing.visualize_utils import explanation
-from tqdm.auto import tqdm
 from postprocessing.visualize_utils import CORAL, RUBY, ASHER, ACCENT
 from simulator.simulator import make_simulator
 
@@ -15,11 +13,7 @@ from build_data import load_data_for_outcome, covariates
 from build_data import est_vars as EST_VARS
 from residualize import residualize
 
-from empirical_bayes.ebmethods import close_npmle
-from empirical_bayes.ebmethods import independent_npmle as indep_npmle
-from empirical_bayes.ebmethods import close_gaussian as close_gauss
-from empirical_bayes.ebmethods import independent_gaussian as indep_gauss
-from conditional_means.kernel import local_linear_regression_conditional_moments, ucb_fast
+from conditional_means.kernel import local_linear_regression_conditional_moments
 import matplotlib.gridspec as gridspec
 from binsreg import binsreg
 

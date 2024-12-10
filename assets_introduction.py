@@ -1,29 +1,13 @@
 """Builds figures for the introductory example of the paper."""
 
-import pandas as pd
 import numpy as np
-from build_data import est_vars as EST_VARS
-from postprocessing.score import mean_squared_error, rank_score_within_cz
-from postprocessing.visualize_utils import explanation
-from tqdm.auto import tqdm
-from postprocessing.visualize_utils import (
-    plot_league_table_value_basic_eb,
-    CORAL,
-    ALICE,
-    RUBY,
-    ASHER,
-    plot_mse_league_table,
-    ACCENT,
-)
+from postprocessing.visualize_utils import CORAL, RUBY, ASHER, ACCENT
 import matplotlib.pyplot as plt
 import seaborn as sns
-from build_data import load_data_for_outcome, covariates
-from build_data import est_vars as EST_VARS
-from residualize import residualize
+from build_data import load_data_for_outcome
 
 from empirical_bayes.ebmethods import close_npmle
 from empirical_bayes.ebmethods import independent_npmle as indep_npmle
-from empirical_bayes.ebmethods import close_gaussian as close_gauss
 from empirical_bayes.ebmethods import independent_gaussian as indep_gauss
 from conditional_means.kernel import local_linear_regression_conditional_moments, ucb_fast
 import matplotlib.gridspec as gridspec
