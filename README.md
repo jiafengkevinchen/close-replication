@@ -1,3 +1,11 @@
+# Replication files for Chen (2025) "Empirical Bayes When Estimation Precision Predicts Parameters"
+
+Current as of https://arxiv.org/abs/2212.14444v5
+
+Jiafeng Chen
+
+December 10, 2024
+
 ## Reproducing results
 
 ```bash
