@@ -18,8 +18,8 @@ sns.set_color_codes()
 
 
 pretty_method_names = {
-    "indep_gauss_nocov": "Indepndent Gaussian\n[no residualization]",
-    "indep_npmle_nocov": "Indepndent NPMLE\n[no residualization]",
+    "indep_gauss_nocov": "Indepndent-Gauss\n[no residualization]",
+    "indep_npmle_nocov": "Indepndent-NPMLE\n[no residualization]",
     "close_gauss_parametric_nocov": "CLOSE-Gauss (parametric)\n[no residualization]",
     "close_gauss_nocov": "CLOSE-Gauss\n[no residualization]",
     "close_npmle_nocov": "CLOSE-NPMLE\n[no residualization]",
