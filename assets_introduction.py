@@ -132,7 +132,10 @@ idx = [
     (((selected_ig) & (~selected_close) & (xs < -1.1)) * (estimates)).argmax(),
     (((~selected_ig) & (selected_close) & (xs < -1.1)) * (estimates)).argmax(),
 ]
-#  idx = [5719, 9761]
+print("idx", idx)
+print(df.loc[idx, ["czname", "tract"]])
+print()
+#  idx = [5461, 500]
 # Englewood, NJ (Newark, NJ CZ, 34003015200) 77% nonwhite
 # East Richmond, CA (San Francisco, CA CZ, 06013370000) 57% nonwhite
 
