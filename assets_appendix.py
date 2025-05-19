@@ -254,7 +254,7 @@ proportion_good_obs = {
 }
 
 method_names = {
-    "indep_gauss_flexible": ("Independent Gasussian (flexible)", ASHER),
+    "indep_gauss_flexible": ("Independent Gaussian (flexible)", ASHER),
     "close_gauss_res": ("CLOSE-Gauss (x residualized)", RUBY),
     "close_npmle_res": ("CLOSE-NPMLE (x residualized)", CORAL),
     "close_gauss": ("CLOSE-Gauss (flexible)", RUBY),

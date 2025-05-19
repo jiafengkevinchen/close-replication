@@ -18,16 +18,17 @@ sns.set_color_codes()
 
 
 pretty_method_names = {
-    "indep_gauss_nocov": "Indepndent-Gauss\n[no residualization]",
-    "indep_npmle_nocov": "Indepndent-NPMLE\n[no residualization]",
+    "indep_gauss_nocov": "Independent-Gauss\n[no residualization]",
+    "indep_npmle_nocov": "Independent-NPMLE\n[no residualization]",
     "close_gauss_parametric_nocov": "CLOSE-Gauss (parametric)\n[no residualization]",
     "close_gauss_nocov": "CLOSE-Gauss\n[no residualization]",
     "close_npmle_nocov": "CLOSE-NPMLE\n[no residualization]",
-    "indep_gauss": "Indepndent-Gauss",
-    "indep_npmle": "Indepndent-NPMLE",
+    "indep_gauss": "Independent-Gauss",
+    "indep_npmle": "Independent-NPMLE",
     "close_gauss_parametric": "CLOSE-Gauss (parametric)",
     "close_gauss": "CLOSE-Gauss",
     "close_npmle": "CLOSE-NPMLE",
+    "naive": "Naive",
 }
 
 ## Figure 4: MSE performance
@@ -67,7 +68,7 @@ plt.title("MSE performance measured by the % of Naive-to-Oracle MSE captured", w
 plt.savefig("assets/mse_table_calibrated.pdf", bbox_inches="tight")
 
 
-## Figure 5: Rank performance
+## Figure not included in the paper (old version of Figure 5)
 col_list_rank = [
     "indep_gauss",
     "close_gauss_parametric",
@@ -127,19 +128,35 @@ print("\n\n\nRaw estimated ranks")
 print((ranks[["close_npmle", "indep_gauss"]] * 100))
 
 
-## Figure not included
+## Figure 5
+
+col_order = [
+    "indep_gauss_nocov",
+    "indep_npmle_nocov",
+    "close_gauss_parametric_nocov",
+    "close_gauss_nocov",
+    "close_npmle_nocov",
+    "naive",
+    "indep_gauss",
+    "indep_npmle",
+    "close_gauss_parametric",
+    "close_gauss",
+    "close_npmle",
+]
 rank_diff = (ranks - ranks["naive"].values[:, None]) * 100
 tab = rank_diff[col_order]
 tab_n = tab / tab["close_npmle"].values[:, None]
-fgsize = (10, 6)
+fgsize = (8, 8 / 1.618)
 plt.figure(figsize=fgsize)
 sns.heatmap(
-    tab_n.rename(explanation, axis=0),
+    tab_n.rename(explanation, axis=0).rename(pretty_method_names, axis=1),
     annot=ranks[tab_n.columns] * 100,
-    cmap="RdBu",
     fmt=".2f",
     cbar=False,
     linewidth=0.01,
+    cmap="PiYG",
+    vmin=-1.2,
+    vmax=1.2,
 )
 plt.xticks(rotation=60, ha="right")
 plt.axvline(5, color="k", lw=5)
@@ -147,7 +164,7 @@ plt.axvline(5, color="k", lw=5)
 # highlight largest entry in each row
 for i in range(tab.shape[0]):
     plt.scatter(
-        np.argmax(tab_n.values[i]) + 0.8,
+        np.argmax(tab_n.values[i]) + 0.85,
         i + 0.5,
         s=10,
         marker="*",
@@ -155,5 +172,8 @@ for i in range(tab.shape[0]):
         edgecolors=CORAL,
         linewidth=2,
     )
-
+plt.title(
+    "Estimated average $\\vartheta$ among selected tracts",
+    weight="bold",
+)
 plt.savefig("assets/rank_table_additional.pdf", bbox_inches="tight")
