@@ -9,3 +9,11 @@ generate_simulated_data.py
 scrap.ipynb
 .DS_Store
 *ipynb
+*aux
+*bbl
+*blg
+*fdb_latexmk
+*log
+*synctex.gz
+*fls
+
