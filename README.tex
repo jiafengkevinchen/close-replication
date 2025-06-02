@@ -922,7 +922,8 @@ programs/code}\label{description-of-programscode}}
 The following are files needed for replicating tables and figures:
 \begin{enumerate}
 \item \texttt{build\_data.py} performs basic cleaning on the raw Opportunity Atlas data
-and saves the processed data in \texttt{data/processed/oa\_data\_used.feather}. 
+and saves the processed data in \texttt{data/processed/oa\_data\_used.feather}. The rest
+of the analysis proceeds only with \texttt{data/processed/oa\_data\_used.feather}.
   \item Code for generating the Monte Carlo data:
   \begin{enumerate}
   \item \texttt{monte\_carlo.sh} runs the calibrated simulation exercise
@@ -1038,7 +1039,12 @@ Replicators}\label{instructions-to-replicators}}
 \subsubsection*{Replicate the Monte Carlo data}
 
 The following bash commands generates Monte Carlo data. This is time consuming to produce,
-and so the data is transmitted directly. 
+and so the data is transmitted directly.
+
+\begin{lstlisting}[language=bash]
+# Builds the raw analysis dataset from raw data
+python build_data.py 
+ \end{lstlisting} 
 
 \begin{lstlisting}[language=bash]
 # Run the Monte Carlo
@@ -1130,7 +1136,8 @@ python generate_scores.py --simulator-name weibull --nsim 100
 \end{lstlisting}
 
 
-Given the csv files in results, creating tables and figures is instant
+Given the csv files in \texttt{results/}, creating tables and figures is ready
+momentarily.
 \begin{lstlisting}
 # Generate figures and tables in assets/
 # Fig 1, 2, 3 and footnote 6
