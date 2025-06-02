@@ -17,6 +17,14 @@ from conditional_means.kernel import local_linear_regression_conditional_moments
 import matplotlib.gridspec as gridspec
 from binsreg import binsreg
 
+import warnings
+import matplotlib
+
+
+# Filter out MatplotlibDeprecationWarning
+warnings.filterwarnings("ignore", category=matplotlib.MatplotlibDeprecationWarning)
+
+
 sns.set_style("white")
 sns.set_context("paper")
 sns.set_color_codes()
@@ -254,33 +262,40 @@ proportion_good_obs = {
 }
 
 method_names = {
-    "indep_gauss_flexible": ("Independent Gaussian (flexible)", ASHER),
-    "close_gauss_res": ("CLOSE-Gauss (x residualized)", RUBY),
-    "close_npmle_res": ("CLOSE-NPMLE (x residualized)", CORAL),
-    "close_gauss": ("CLOSE-Gauss (flexible)", RUBY),
-    "close_npmle": ("CLOSE-NPMLE (flexible)", CORAL),
+    "indep_gauss_flexible": ("Independent Gaussian\n(flexible)", ASHER),
+    "close_gauss_res": ("CLOSE-Gauss\n(x residualized)", RUBY),
+    "close_npmle_res": ("CLOSE-NPMLE\n(x residualized)", CORAL),
+    "close_gauss": ("CLOSE-Gauss\n(flexible)", RUBY),
+    "close_npmle": ("CLOSE-NPMLE\n(flexible)", CORAL),
 }
 
-plt.figure(figsize=(5, 2))
-for i, method in enumerate(method_names.keys()):
-    method_name = method.replace("_nocov", "")
-    nocov = "res" in method
+method_names_nocol = {k: v[0] for k, v in method_names.items()}
+rank_diff = (ranks - ranks["naive"].values[:, None]) * 100
+col_order = "indep_gauss_flexible close_gauss_res close_npmle_res close_gauss close_npmle".split()
+tab = rank_diff[col_order]
+tab_n = tab / tab["close_npmle"].values[:, None]
+fgsize = (6, 2)
+tab_n.index.name = None
+tab_n.columns.name = None
 
-    name, color = method_names[method_name]
-    offset = (1 if nocov else -1) * 0.15
-    plt.scatter(
-        x=(ranks[method] - ranks["naive"]) * 100,
-        y=np.arange(len(ranks))[::-1] + offset + np.random.uniform(-0.1, 0.1),
-        marker="o" if not nocov else "x",
-        color=color,
-        label=name,
-    )
+plt.figure(figsize=fgsize)
+sns.heatmap(
+    tab_n.rename(explanation, axis=0).rename(method_names_nocol, axis=1),
+    annot=ranks[tab_n.columns] * 100,
+    fmt=".2f",
+    cbar=False,
+    linewidth=0.01,
+    cmap="PiYG",
+    vmin=-1.2,
+    vmax=1.2,
+)
+plt.xticks(rotation=60, ha="right")
 
 # Annotate with the proportion of good observations
-for i, est_var in enumerate(ranks.index[::-1]):
+for i, est_var in enumerate(ranks.index):
     plt.text(
-        x=-1,
-        y=i,
+        x=0,
+        y=i + 0.4,
         s=f"{proportion_good_obs[est_var]*100:.0f}%",
         ha="left",
         va="center",
@@ -288,16 +303,48 @@ for i, est_var in enumerate(ranks.index[::-1]):
         weight="bold",
     )
 
-plt.yticks(np.arange(len(ranks))[::-1], ranks.rename(index=explanation).index)
-for y in np.arange(len(ranks))[::-1]:
-    # plt.axhline(y=y - offset, color="grey", linewidth=0.5, ls="--")
-    plt.axhline(y=y, color="grey", linewidth=0.5, ls="--")
-plt.axvline(0, color="r", alpha=0.3)
-plt.xlim((-3, 4))
-plt.xlabel(
-    "Performance difference relative to screening on raw estimates (percentile rank or percentage point)"
-)
-sns.despine()
-plt.legend(loc=(1.05, 0), frameon=False)
 
-plt.savefig("assets/rank_table_covariate_additive.pdf", bbox_inches="tight")
+plt.savefig("assets/rank_table_covariate_additive_new.pdf", bbox_inches="tight")
+
+
+## Old version of Figure OA5.4 (not included in the paper)
+# plt.figure(figsize=(5, 2))
+# for i, method in enumerate(method_names.keys()):
+#     method_name = method.replace("_nocov", "")
+#     nocov = "res" in method
+
+#     name, color = method_names[method_name]
+#     offset = (1 if nocov else -1) * 0.15
+#     plt.scatter(
+#         x=(ranks[method] - ranks["naive"]) * 100,
+#         y=np.arange(len(ranks))[::-1] + offset + np.random.uniform(-0.1, 0.1),
+#         marker="o" if not nocov else "x",
+#         color=color,
+#         label=name,
+#     )
+
+# # Annotate with the proportion of good observations
+# for i, est_var in enumerate(ranks.index[::-1]):
+#     plt.text(
+#         x=-1,
+#         y=i,
+#         s=f"{proportion_good_obs[est_var]*100:.0f}%",
+#         ha="left",
+#         va="center",
+#         color=CORAL,
+#         weight="bold",
+#     )
+
+# plt.yticks(np.arange(len(ranks))[::-1], ranks.rename(index=explanation).index)
+# for y in np.arange(len(ranks))[::-1]:
+#     # plt.axhline(y=y - offset, color="grey", linewidth=0.5, ls="--")
+#     plt.axhline(y=y, color="grey", linewidth=0.5, ls="--")
+# plt.axvline(0, color="r", alpha=0.3)
+# plt.xlim((-3, 4))
+# plt.xlabel(
+#     "Performance difference relative to screening on raw estimates (percentile rank or percentage point)"
+# )
+# sns.despine()
+# plt.legend(loc=(1.05, 0), frameon=False)
+
+# plt.savefig("assets/rank_table_covariate_additive.pdf", bbox_inches="tight")

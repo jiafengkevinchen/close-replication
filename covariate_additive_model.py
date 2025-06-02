@@ -38,17 +38,6 @@ def compute_posterior_means_additive(est_var, seed):
     validation = results["validation"].values
     validation_se = results["validation_se"].values
 
-    # added_noise = (estimates - validation) / (c + 1 / c) / df[f"{est_var}_se"].values
-
-    # original_estimates = estimates - c * df[f"{est_var}_se"].values * added_noise
-
-    # # half the variance, treat Y ~ N(theta, sigma^2/2) where theta = (theta + sigma/sqrt(2) Z)
-    # new_se = df[f"{est_var}_se"].values / np.sqrt(2)
-    # standard_errors = new_se * (1 + c**2) ** 0.5
-    # validation = original_estimates - new_se * (1 / c) * added_noise
-    # estimates = original_estimates + c * new_se * added_noise
-    # validation_se = standard_errors * (1 + 1 / c**2) ** 0.5
-
     cts_covariates = [
         "par_rank_pooled_pooled_mean",
         "par_rank_black_pooled_mean",

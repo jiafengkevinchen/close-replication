@@ -56,7 +56,7 @@ python empirical_exercise.py --nsim 1 --starting-seed 94399  --data-dir "data/si
 ```python
 import pandas as pd
 
-# Reproduces as of 2024-12-10
+# Reproduces as of 2025-06-01
 orig = pd.read_feather("data/simulated_posterior_means/coupled_bootstrap-0.9/kfr_black_pooled_p25/94999.feather")
 new = pd.read_feather("data/simulated_posterior_means_sample/coupled_bootstrap-0.9/kfr_black_pooled_p25/94999.feather")
 print((orig.drop("czname", axis=1) - new.drop("czname", axis=1)).values.std())
@@ -66,7 +66,7 @@ new = pd.read_feather("data/simulated_posterior_means_sample/npmle_by_bins/kfr_b
 print((orig - new).values.std())
 
 orig = pd.read_feather("data/simulated_posterior_means/weibull/kfr_black_pooled_p25/94399.feather")
-new = pd.read_feather("data/simulated_posterior_means/weibull/kfr_black_pooled_p25/94399.feather")
+new = pd.read_feather("data/simulated_posterior_means_sample/weibull/kfr_black_pooled_p25/94399.feather")
 print((orig - new).values.std())
 
 # 0.0

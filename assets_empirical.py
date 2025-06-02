@@ -11,10 +11,16 @@ from postprocessing.visualize_utils import plot_league_table_value_basic_eb, COR
 from build_data import load_data_for_outcome
 from build_data import est_vars as EST_VARS
 
+import warnings
+import matplotlib
 
 sns.set_style("white")
 sns.set_context("paper")
 sns.set_color_codes()
+
+
+# Filter out MatplotlibDeprecationWarning
+warnings.filterwarnings("ignore", category=matplotlib.MatplotlibDeprecationWarning)
 
 
 pretty_method_names = {
@@ -68,7 +74,7 @@ plt.title("MSE performance measured by the % of Naive-to-Oracle MSE captured", w
 plt.savefig("assets/mse_table_calibrated.pdf", bbox_inches="tight")
 
 
-## Figure not included in the paper (old version of Figure 5)
+## Figure not included in the paper (old version of Figure 5) ----
 col_list_rank = [
     "indep_gauss",
     "close_gauss_parametric",
@@ -89,12 +95,12 @@ plt.title(
     weight="bold",
 )
 plt.savefig("assets/ranks.pdf", bbox_inches="tight")
-
+# -------
 
 ## Voice over in the paper
 
 # Footnote 30 in the paper
-print("\n\n\nGap between close-npmle and indep-gauss")
+print("\n\n\nGap between close-npmle and indep-gauss (Footnote 30)")
 print((ranks["close_npmle"] - ranks["indep_gauss"]) * 100)
 
 # Median improvement calculation
@@ -103,29 +109,30 @@ median_improvement = (
     / np.maximum(ranks["indep_gauss"] - ranks["naive"], 0.0001)
     * 100
 ).median()
-print("\n\n\nMedian improvement")
+print("\n\n\nMedian improvement; expected around 260%")
 print(median_improvement)
 
 # Number of indep-gauss that underperforms naive
 bad_count = (ranks["indep_gauss"] - ranks["naive"] < 0).sum()
-print("\n\n\nBad indep-gauss count")
+print("\n\n\nNumber of indep-gauss that underperforms naive; expected 4")
 print(bad_count)
 
 
-# Value of data
-grand_means = pd.Series(
-    {est_var: load_data_for_outcome(est_var)[est_var].mean() for est_var in EST_VARS}
-)
-value_data = (
-    (ranks["close_npmle"] - ranks["indep_gauss"]) / (ranks["indep_gauss"] - grand_means) * 100
-).loc[explanation.keys()]
+## No longer reported in the paper
+# # Value of data
+# grand_means = pd.Series(
+#     {est_var: load_data_for_outcome(est_var)[est_var].mean() for est_var in EST_VARS}
+# )
+# value_data = (
+#     (ranks["close_npmle"] - ranks["indep_gauss"]) / (ranks["indep_gauss"] - grand_means) * 100
+# ).loc[explanation.keys()]
 
-print("\n\n\nValue of data")
-print(value_data.median(), (value_data > 100).sum(), value_data)
+# print("\n\n\nValue of data")
+# print(value_data.median(), (value_data > 100).sum(), value_data)
 
-# Raw estimated ranks
-print("\n\n\nRaw estimated ranks")
-print((ranks[["close_npmle", "indep_gauss"]] * 100))
+# # Raw estimated ranks
+# print("\n\n\nRaw estimated ranks")
+# print((ranks[["close_npmle", "indep_gauss"]] * 100))
 
 
 ## Figure 5

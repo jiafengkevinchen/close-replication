@@ -12,6 +12,13 @@ from empirical_bayes.ebmethods import independent_gaussian as indep_gauss
 from conditional_means.kernel import local_linear_regression_conditional_moments, ucb_fast
 import matplotlib.gridspec as gridspec
 
+import warnings
+import matplotlib
+
+# Filter out MatplotlibDeprecationWarning
+warnings.filterwarnings("ignore", category=matplotlib.MatplotlibDeprecationWarning)
+
+
 sns.set_style("white")
 sns.set_context("paper")
 sns.set_color_codes()
@@ -31,7 +38,7 @@ posterior_means_npmle, npmle_meta = indep_npmle(estimates, standard_errors)
 xs = np.log10(standard_errors)
 
 signal_std = ((estimates).std() ** 2 - (standard_errors**2).mean()) ** 0.5
-print("Signal SD (footnote 6)", signal_std)
+print("Signal SD (footnote 6); expected about 0.037", signal_std)
 
 np_df, point, cov, max_t = ucb_fast(
     estimates, xs, frac=0.1, kernel="epa", bwselect="imse-dpi", truncate=0.99, ngrid=40
@@ -132,8 +139,9 @@ idx = [
     (((selected_ig) & (~selected_close) & (xs < -1.1)) * (estimates)).argmax(),
     (((~selected_ig) & (selected_close) & (xs < -1.1)) * (estimates)).argmax(),
 ]
-print("idx", idx)
+print("idx", idx, "Expected (5461, 500)")
 print(df.loc[idx, ["czname", "tract"]])
+print("Expected: Newark, NJ CZ, 34003015200; San Francisco, CA CZ, 06013370000")
 print()
 #  idx = [5461, 500]
 # Englewood, NJ (Newark, NJ CZ, 34003015200) 77% nonwhite
