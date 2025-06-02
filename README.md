@@ -6,6 +6,8 @@ Jiafeng Chen
 
 December 10, 2024
 
+For more detailed data citation and replication instructions, see README.pdf.
+
 ## Reproducing results
 
 ```bash

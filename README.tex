@@ -100,6 +100,8 @@
 
 \noindent MS-22935 for \emph{Econometrica}
 
+\noindent \today
+
 % \begin{quote}
 % INSTRUCTIONS: This README suggests structure and content that have been
 % approved by various journals, see
@@ -138,12 +140,12 @@
 % The replicator should expect the code to run for about 14 hours.
 
 The code in this replication package constructs simulated Monte Carlos from the
-Opportunity Atlas \citep{DVN/NKCQM1_2022} using Python. The Monte Carlo is
-time-consuming but extremely parallelizable (30 seconds per draw on a 2022 Apple M1 Max
-Mac Studio, $1000 \times 15$ draws). All code is in Python, but NPMLE estimation relies on
-the package rpy2. The generated Monte Carlo data is included. Without re-generating the
-Monte Carlo data, the rest of the code should run instantly. Three main analysis files
-generate all 9 figures (5 in the main text, 4 in the online appendix) and 1 table (online
+Opportunity Atlas \citep{DVN/NKCQM1_2022} using Python. The Monte Carlo is time-consuming
+but extremely parallelizable (a few minutes per draw on a 2022 Apple M1 Max Mac Studio,
+$1000 \times 15$ draws). All code is in Python, but NPMLE estimation relies on the package
+rpy2. The generated Monte Carlo data is included. Without re-generating the Monte Carlo
+data, the rest of the code should run in a short time. Three main analysis files generate
+all 9 figures (5 in the main text, 4 in the online appendix) and 1 table (online
 appendix).
 
 \hypertarget{data-availability-and-provenance-statements}{%
@@ -847,9 +849,9 @@ Approximate time needed to reproduce the analyses on a standard (2025) desktop m
 \begin{itemize}
 \tightlist
 \item[$\checkmark$]
-  \textless10 minutes (Reproducing from generated Monte Carlo outputs)
-\item[$\square$]
-  10-60 minutes
+  \textless10 minutes (Reproducing from scored Monte Carlo outputs)
+\item[$\checkmark$]
+  10-60 minutes (Reproducing from Monte Carlo outputs)
 \item[$\square$]
   1-2 hours
 \item[$\square$]
@@ -1116,6 +1118,7 @@ print((orig - new).values.std())
 
 \subsubsection*{Replication of results given the Monte Carlo data}
 
+Score the Monte Carlo results and generate csv files in \texttt{results/}
 \begin{lstlisting}[language=bash]
 ### Given Monte Carlo results in results/[simulator-name]/
 
@@ -1124,7 +1127,11 @@ python generate_scores.py --simulator-name coupled_bootstrap-0.9 --nsim 1000
 python generate_scores.py --simulator-name npmle_by_bins --nsim 1000
 python generate_scores.py --simulator-name weibull --nsim 100
 # The additive model results are processed directly
+\end{lstlisting}
 
+
+Given the csv files in results, creating tables and figures is instant
+\begin{lstlisting}
 # Generate figures and tables in assets/
 # Fig 1, 2, 3 and footnote 6
 python assets_introduction.py
