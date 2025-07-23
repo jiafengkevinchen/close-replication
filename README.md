@@ -165,7 +165,8 @@ Now, in an R session, if we call `library(Rmosek)` we would expect
 
 Following the [`Rmosek`
 instructions](https://docs.mosek.com/latest/rmosek/install-interface.html), we install
-`Rmosek` like so.
+`Rmosek` like so. (Note, after installation, Rmosek's version would disagree with
+`renv.lock`. This would cause a warning "- The project is out-of-sync -- use `renv::status()` for details.", but it's safe to ignore.)
 ```R
 # <RMOSEKDIR> is the directory that Mosek is installed in
 # e.g., ~/mosek/10.2/tools/platform/osxaarch64/rmosek
