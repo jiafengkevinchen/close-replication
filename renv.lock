@@ -235,6 +235,35 @@
       "Repository": "CRAN",
       "Encoding": "UTF-8"
     },
+    "Rmosek": {
+      "Package": "Rmosek",
+      "Version": "10.2.16",
+      "Source": "unknown",
+      "Title": "The R-to-MOSEK optimization interface",
+      "Author": "MOSEK ApS",
+      "Contact": "MOSEK ApS <rmosek@mosek.com>",
+      "Description": "Makes the optimization facilities of MOSEK available from the R-language. The interface supports large-scale optimization of  mixed-integer and continuous variants of linear, second-order cone, exponential cone and power cone problems, as well as continuous  semidefinite problems. Rmosek and the R-language are open-source projects. MOSEK is a proprietary product, but unrestricted trial and academic licenses are available.",
+      "URL": "http://www.mosek.com/",
+      "Maintainer": "Utkarsh Detha <utkarsh.detha@mosek.com>",
+      "License": "LGPL (>= 2.1)",
+      "NeedsCompilation": "yes",
+      "SystemRequirements": "MOSEK (>= 10) and MOSEK License (>= 10)",
+      "Suggests": [
+        "pkgbuild"
+      ],
+      "Depends": [
+        "R (>= 2.14)",
+        "Matrix (>= 1.1.0)",
+        "methods",
+        "utils"
+      ],
+      "LinkingTo": [
+        "Matrix"
+      ],
+      "Configured.MSK_VERSION": "10.2",
+      "Configured.MSK_BINDIR": "/Users/jiafengchen/mosek/mosek/10.2/tools/platform/osxaarch64/bin",
+      "Configured.MSK_HEADERDIR": "/Users/jiafengchen/mosek/mosek/10.2/tools/platform/osxaarch64/h"
+    },
     "cli": {
       "Package": "cli",
       "Version": "3.6.5",
@@ -713,7 +742,8 @@
       "NeedsCompilation": "yes",
       "Author": "Sebastian Calonico [aut, cre], Matias D. Cattaneo [aut], Max H. Farrell [aut]",
       "Maintainer": "Sebastian Calonico <scalonico@ucdavis.edu>",
-      "Repository": "CRAN"
+      "Repository": "RSPM",
+      "Encoding": "UTF-8"
     },
     "pillar": {
       "Package": "pillar",

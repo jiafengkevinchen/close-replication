@@ -1,5 +1,6 @@
 library(REBayes)
 library(nprobust)
+library(Rmosek)
 
 set.seed(42)
 x <- rnorm(100)
