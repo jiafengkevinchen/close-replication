@@ -418,6 +418,7 @@ the Monte Carlo data. The [NOTE](#note-on-replicating-monte-carlo-data) below in
 
 # Change this to change the number of cores used
 export NUM_CORES=5 # See parallelism note below
+rm logs/*          # Clear logs
 
 # Calibrated simulation exercise
 sh monte_carlo.sh
