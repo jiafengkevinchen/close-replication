@@ -6,11 +6,19 @@ jiafeng@stanford.edu
 MS-22935 for _Econometrica_
 
 
+## Quickstart
+
+To regenerate figures and tables _without_ regenerating/re-scoring the Monte Carlo
+data, simply run after installation:
+```bash
+sh generate_assets.sh
+```
+
 ## Overview
 
 The code in this replication package does the following:
 1. Cleans raw data from Opportunity Atlas (Chetty et al., 2022)
-2. Construct Monte Carlo samples underlying empirical exercises in the paper (**Expensive**;
+2. Generate Monte Carlo samples used in the empirical exercises (**Expensive**;
    pre-computed outputs included in `simulated_posterior_means.zip`)
 3. _Scores_ the Monte Carlo - i.e., computes statistics underlying tables and figures in
    the paper
@@ -22,11 +30,7 @@ For a partial replication, skip step 2 and use the included pre-computed output
 
 Three main analysis files
 generate all 9 figures (5 in the main text, 4 in the online appendix) and 1 table (online
-appendix). To regenerate figures and tables _without_ regenerating/re-scoring the Monte Carlo
-data, simply run:
-```bash
-sh generate_assets.sh
-```
+appendix).
 
 A full replication of the Monte Carlo (step 2) is time-consuming and error-prone
 but extremely parallelizable (a few minutes per draw on a 2022 Apple M1 Max Mac Studio,
@@ -406,7 +410,9 @@ python build_data.py
 
 #### Step 2: Monte Carlo data generation
 
-The following bash commands runs each bash script and generates the Monte Carlo data. This is the most
+The following bash commands runs each bash script and generates the Monte Carlo data.
+
+This is the most
 time-consuming and error-prone step (see [NOTE](#note-on-replicating-monte-carlo-data) below): The output of this step is included in the replication
 package directly. Moreover, optionally, instead of fully replicating this step, one could verify a small subset of
 the Monte Carlo data. The [NOTE](#note-on-replicating-monte-carlo-data) below includes instructions for doing so.
@@ -471,7 +477,7 @@ python generate_scores.py --simulator-name weibull --nsim 100                # ~
 
 sh generate_assets.sh
 ```
-
+---
 #### <a name="parallel"></a> Parallelism
 
 The .sh files in step 2 runs the following script in parallel **over `est_var`**
@@ -507,7 +513,8 @@ underlying data.
 | `npmle_by_bins` | One of `("kfr_pooled_pooled_p25"  "kfr_white_male_p25"  "kfr_black_male_p25"  "kfr_black_pooled_p25" "kfr_white_pooled_p25" "jail_black_male_p25" "jail_white_male_p25" "jail_black_pooled_p25" "jail_white_pooled_p25" "jail_pooled_pooled_p25" "kfr_top20_black_male_p25" "kfr_top20_white_male_p25" "kfr_top20_black_pooled_p25" "kfr_top20_white_pooled_p25" "kfr_top20_pooled_pooled_p25")` | 94301-95300 | `all`
 | `weibull` | One of `("kfr_pooled_pooled_p25"  "kfr_black_pooled_p25"  "jail_black_pooled_p25" "jail_pooled_pooled_p25" "kfr_top20_black_pooled_p25" "kfr_top20_pooled_pooled_p25")` | 94301 - 94400 | `indep_gauss,close_npmle,close_gauss,close_gauss_parametric`|
 
-
+---
+---
 #### <a name="note"></a> NOTE: on replicating Monte Carlo data
 
 
