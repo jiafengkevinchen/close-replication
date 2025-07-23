@@ -146,7 +146,7 @@ installation, section 4.2-4.3](https://docs.mosek.com/10.2/install/installation.
 
 3. (**R**) With an R installation (Last run with R version 4.4.0 (2024-04-24) -- "Puppy Cup"), ensure
 that [`renv`](https://rstudio.github.io/renv/articles/renv.html) is installed. Then, in an
-R session, run
+R session from the command line, run
 ```R
 renv::restore() # Reads packages from ./renv.lock and installs them
 ```
