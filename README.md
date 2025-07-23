@@ -419,20 +419,33 @@ the Monte Carlo data. The [NOTE](#note-on-replicating-monte-carlo-data) below in
 
 # Change this to change the number of cores used
 export NUM_CORES=5 # See parallelism note below
-rm logs/*          # Clear logs
+rm -f logs/*          # Clear logs
+
+# -----------------------------------------------------------------------------
+# Time consuming, the progress bar is written to std.err, which is written to logs/.
+# Can check corresponding files in logs/ to monitor
+# (monte_carlo.sh coupled_bootstrap.sh weibull_model.sh) do not need to be run sequentially.
+# They can be run concurrently in separate terminal sessions
 
 # Calibrated simulation exercise
-sh monte_carlo.sh
+# Time estimate: (1 minute per iteration x 15000 iterations) / min(#cores, 15)
+sh monte_carlo.sh       # tail -F logs/mc_error* to monitor progress
 
 # Validation exercise using coupled bootstrap
-sh coupled_bootstrap.sh
+# Time estimate: (1 minute per iteration x 15000 iterations) / min(#cores, 15)
+sh coupled_bootstrap.sh # tail -F logs/error_*
 
 # Weibull exercise in OA5.3
-sh weibull_model.sh
+# Time estimate: (0.5 minute per iteration x 600 iterations) / min(#cores, 6)
+sh weibull_model.sh     # tail -F logs/weibull_error*
 
+# -----------------------------------------------------------------------------
 # Additive model exercise in OA5.4
+# ***Assumes the output from coupled_bootstrap.sh already exists***
 # Saves results directly in results/covariate_additive_model/*.csv
-sh additive_model.sh
+# Time estimate: (0.5 minute per iteration x 600 iterations) / min(#cores, 6)
+sh additive_model.sh    # tail -F logs/cam_error*
+
 ```
 
 #### Step 3: Computing table/figure-relevant statistics
