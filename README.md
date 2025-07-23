@@ -13,6 +13,7 @@ data, simply run after installation:
 ```bash
 sh generate_assets.sh
 ```
+This writes tables and figures to `assets/`
 
 ## Overview
 
