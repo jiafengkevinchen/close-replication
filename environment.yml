@@ -1,4 +1,4 @@
-name: eb
+name: eb-replication
 channels:
   - conda-forge
 dependencies:
@@ -101,7 +101,6 @@ dependencies:
     - kiwisolver==1.4.4
     - lets-plot==4.3.3
     - libpysal==4.7.0
-    - line-profiler==4.0.2
     - llvmlite==0.43.0
     - lxml==4.9.1
     - markupsafe==2.1.1

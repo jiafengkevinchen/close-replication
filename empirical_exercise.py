@@ -207,6 +207,15 @@ def compute_posterior_means_subsample(
     return pd.DataFrame(posterior_mean_df)
 
 
+def _main(est_var, simulator_name, methods, nsim, data_dir, starting_seed):
+    methods_list = list(method_features.keys())
+    methods_list.remove("close_npmle_norm")
+    methods = methods.split(",") if methods != "all" else methods_list
+    calibrated_simulation(
+        est_var, simulator_name, methods, nsim, data_dir=data_dir, starting_seed=starting_seed
+    )
+
+
 @click.command()
 @click.option("--est_var", type=str, required=True)
 @click.option("--simulator-name", type=str)
@@ -215,12 +224,7 @@ def compute_posterior_means_subsample(
 @click.option("--data-dir", default="data/simulated_posterior_means", type=str)
 @click.option("--starting-seed", default=94301, type=int)
 def main(est_var, simulator_name, methods, nsim, data_dir, starting_seed):
-    methods_list = list(method_features.keys())
-    methods_list.remove("close_npmle_norm")
-    methods = methods.split(",") if methods != "all" else methods_list
-    calibrated_simulation(
-        est_var, simulator_name, methods, nsim, data_dir=data_dir, starting_seed=starting_seed
-    )
+    return _main(est_var, simulator_name, methods, nsim, data_dir, starting_seed)
 
 
 if __name__ == "__main__":
