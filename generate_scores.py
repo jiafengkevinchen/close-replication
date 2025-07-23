@@ -25,6 +25,16 @@ def mse_and_rank_scores(simulator_name, nsim=1000):
         for seed in tqdm(range(94301, 94301 + nsim), desc=f"{est_var}"):
             fname = f"data/simulated_posterior_means/{simulator_name}/{est_var}/{seed}.feather"
             if not os.path.exists(fname):
+
+                # Silence warnings for expectedly missing files in Weibull
+                if simulator_name == "weibull" and (
+                    seed >= 94301 + 100
+                    or not os.path.exists(
+                        f"data/simulated_posterior_means/{simulator_name}/{est_var}/"
+                    )
+                ):
+                    continue
+
                 warnings.warn(f"File {fname} does not exist")
                 continue
             pm_seed = pd.read_feather(fname)
