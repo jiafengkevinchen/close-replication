@@ -39,7 +39,7 @@ posterior_means_npmle, npmle_meta = indep_npmle(estimates, standard_errors)
 xs = np.log10(standard_errors)
 
 signal_std = ((estimates).std() ** 2 - (standard_errors**2).mean()) ** 0.5
-print("Signal SD (footnote 6); expected about 0.037", signal_std)
+print(f"assets_introduction.py: Computed signal SD for footnote 6: {signal_std:.4f} (expected: ~0.037)")
 
 np_df, point, cov, max_t = ucb_fast(
     estimates, xs, frac=0.1, kernel="epa", bwselect="imse-dpi", truncate=0.99, ngrid=40
@@ -81,6 +81,7 @@ plt.suptitle(title)
 plt.ylabel("Estimates $Y_i$")
 # Note: PDF output has rasterized scatter points which may display inconsistently across viewers
 # PNG output is provided for reliable viewing
+print("assets_introduction.py: Saving Figure 1 → assets/example_raw.pdf and assets/example_raw.png")
 plt.savefig("assets/example_raw.pdf", bbox_inches="tight", dpi=500)
 plt.savefig("assets/example_raw.png", bbox_inches="tight", dpi=300)
 
@@ -133,6 +134,7 @@ sns.despine()
 a2.set_xlabel("$\\log_{10}(\\sigma_i)$")
 plt.suptitle(title)
 
+print("assets_introduction.py: Saving Figure 2 → assets/example_eb_posterior_means.pdf and assets/example_eb_posterior_means.png")
 plt.savefig("assets/example_eb_posterior_means.pdf", bbox_inches="tight")
 plt.savefig("assets/example_eb_posterior_means.png", bbox_inches="tight", dpi=300)
 
@@ -144,9 +146,10 @@ idx = [
     (((selected_ig) & (~selected_close) & (xs < -1.1)) * (estimates)).argmax(),
     (((~selected_ig) & (selected_close) & (xs < -1.1)) * (estimates)).argmax(),
 ]
-print("idx", idx, "Expected (5461, 500)")
+print(f"assets_introduction.py: Selected tract indices: {idx} (expected: [5461, 500])")
+print("assets_introduction.py: Selected tracts:")
 print(df.loc[idx, ["czname", "tract"]])
-print("Expected: Newark, NJ CZ, 34003015200; San Francisco, CA CZ, 06013370000")
+print("assets_introduction.py: Expected tracts: Newark, NJ CZ (34003015200); San Francisco, CA CZ (06013370000)")
 print()
 #  idx = [5461, 500]
 # Englewood, NJ (Newark, NJ CZ, 34003015200) 77% nonwhite
@@ -238,6 +241,7 @@ plt.suptitle(
     "Opportunity Atlas estimates for \n P(Income ranks in top 20 | Black, Parent at 25th Percentile)"
 )
 plt.legend(loc=(0.05, 0.8), frameon=False)
+print("assets_introduction.py: Saving Figure 3 → assets/example_shrink_ranking.pdf and assets/example_shrink_ranking.png")
 plt.savefig(
     "assets/example_shrink_ranking.pdf",
     bbox_inches="tight",

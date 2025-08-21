@@ -34,6 +34,12 @@ docker load < eb-replication.tar
 # Verify the image was loaded
 docker images
 
+# Expected output:
+# ❯ docker images
+# REPOSITORY                   TAG       IMAGE ID       CREATED          SIZE
+# replication-eb-replication   latest    3e160fc64e7f   18 minutes ago   1.02GB
+
+
 # Place your MOSEK license file
 # Copy your mosek.lic file to the project directory
 

@@ -1,6 +1,6 @@
 services:
   eb-replication:
-    build: .
+    image: replication-eb-replication:latest
     platform: linux/amd64
     container_name: eb-replication-env
     volumes:
@@ -27,7 +27,7 @@ services:
       - "8888:8888"
 
   eb-replication-test:
-    build: .
+    image: replication-eb-replication:latest
     platform: linux/amd64
     container_name: eb-replication-test-env
     volumes:

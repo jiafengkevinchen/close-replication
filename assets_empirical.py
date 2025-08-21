@@ -71,6 +71,7 @@ plt.xticks(rotation=60, ha="right")
 plt.axvline(5, color="k", lw=5)
 plt.xticks()
 plt.title("MSE performance measured by the % of Naive-to-Oracle MSE captured", weight="bold")
+print("assets_empirical.py: Saving Figure 4 → assets/mse_table_calibrated.pdf")
 plt.savefig("assets/mse_table_calibrated.pdf", bbox_inches="tight")
 
 
@@ -94,13 +95,14 @@ plt.title(
     "Selection performance measured by coupled bootstrap estimates of mean parameter among selected",
     weight="bold",
 )
+print("assets_empirical.py: Saving Figure 5 → assets/ranks.pdf")
 plt.savefig("assets/ranks.pdf", bbox_inches="tight")
 # -------
 
 ## Voice over in the paper
 
 # Footnote 30 in the paper
-print("\n\n\nGap between close-npmle and indep-gauss (Footnote 30)")
+print("\nassets_empirical.py: Gap between close-npmle and indep-gauss for footnote 30:")
 print((ranks["close_npmle"] - ranks["indep_gauss"]) * 100)
 
 # Median improvement calculation
@@ -109,13 +111,11 @@ median_improvement = (
     / np.maximum(ranks["indep_gauss"] - ranks["naive"], 0.0001)
     * 100
 ).median()
-print("\n\n\nMedian improvement; expected around 260%")
-print(median_improvement)
+print(f"\nassets_empirical.py: Median improvement: {median_improvement:.1f}% (expected: ~260%)")
 
 # Number of indep-gauss that underperforms naive
 bad_count = (ranks["indep_gauss"] - ranks["naive"] < 0).sum()
-print("\n\n\nNumber of indep-gauss that underperforms naive; expected 4")
-print(bad_count)
+print(f"\nassets_empirical.py: Number of indep-gauss underperforming naive: {bad_count} (expected: 4)")
 
 
 ## No longer reported in the paper
@@ -183,4 +183,5 @@ plt.title(
     "Estimated average $\\vartheta$ among selected tracts",
     weight="bold",
 )
+print("assets_empirical.py: Saving additional rank table → assets/rank_table_additional.pdf")
 plt.savefig("assets/rank_table_additional.pdf", bbox_inches="tight")

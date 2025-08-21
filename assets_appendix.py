@@ -112,6 +112,7 @@ for i, vs in enumerate(val_sets):
     axs[i].axhline(0, ls="--", color="black")
     axs[i].legend(frameon=False)
 axs[2].set_xlabel("$\\log_{10}($Standard error $\\sigma_i)$")
+print("assets_appendix.py: Saving Figure OA5.1 → assets/variance_right_tail.pdf")
 plt.savefig("assets/variance_right_tail.pdf", bbox_inches="tight")
 
 
@@ -178,6 +179,7 @@ plt.xlabel(xlab)
 plt.suptitle(title, y=1.05)
 sns.despine()
 plt.legend(loc="upper left", frameon=False)
+print("assets_appendix.py: Saving Figure OA5.2 → assets/compare_real_sim_data.pdf")
 plt.savefig("assets/compare_real_sim_data.pdf", bbox_inches="tight")
 
 
@@ -230,6 +232,7 @@ plt.xticks(rotation=60, ha="right")
 plt.axvline(4, color="k", lw=5)
 plt.xticks()
 plt.title("MSE performance measured by the % of Naive-to-Oracle MSE captured", weight="bold")
+print("assets_appendix.py: Saving Figure OA5.3 → assets/mse_table_weibull.pdf")
 plt.savefig("assets/mse_table_weibull.pdf", bbox_inches="tight")
 
 
@@ -304,6 +307,7 @@ for i, est_var in enumerate(ranks.index):
     )
 
 
+print("assets_appendix.py: Saving Table OA5.1 → assets/rank_table_covariate_additive_new.pdf")
 plt.savefig("assets/rank_table_covariate_additive_new.pdf", bbox_inches="tight")
 
 
