@@ -1,0 +1,39 @@
+# Large data directories
+data/
+
+# Version control
+.git/
+.gitignore
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+.Python
+.env
+.venv/
+*.ipynb
+*png
+*yml
+LICENSE.txt
+*md
+*pdf
+
+# R cache
+.Rhistory
+.RData
+.Rproj.user/
+
+# IDE and OS files
+.DS_Store
+.vscode/
+.idea/
+
+# Build artifacts
+*.tar.gz
+*.zip
+
+# Temporary files
+*.tmp
+logs/*
+data/simulated_posterior_means_sample/*

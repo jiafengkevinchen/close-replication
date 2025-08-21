@@ -3,6 +3,7 @@ variable"""
 
 import pandas as pd
 import numpy as np
+import warnings
 
 est_vars = [
     "kfr_pooled_pooled_p25",
@@ -69,12 +70,14 @@ def build_data(output_dir="data/processed/oa_data_used.feather"):
     df = df.merge(cov_df, on=identifiers, how="left").reset_index(drop=True)
 
     # Take log for number of kids
-    df["log_kid_black_pooled_blw_p50_n"] = np.where(
-        df["kid_black_pooled_blw_p50_n"] > 0, np.log(df["kid_black_pooled_blw_p50_n"]), np.nan
-    )
-    df["log_kid_pooled_pooled_blw_p50_n"] = np.where(
-        df["kid_pooled_pooled_blw_p50_n"] > 0, np.log(df["kid_pooled_pooled_blw_p50_n"]), np.nan
-    )
+    with warnings.catch_warnings():
+        warnings.filterwarnings("ignore", message="divide by zero encountered in log")
+        df["log_kid_black_pooled_blw_p50_n"] = np.where(
+            df["kid_black_pooled_blw_p50_n"] > 0, np.log(df["kid_black_pooled_blw_p50_n"]), np.nan
+        )
+        df["log_kid_pooled_pooled_blw_p50_n"] = np.where(
+            df["kid_pooled_pooled_blw_p50_n"] > 0, np.log(df["kid_pooled_pooled_blw_p50_n"]), np.nan
+        )
 
     # Filter to the largest [TOP] commuting zones by number of tracts
     cz_by_num_tracts = (

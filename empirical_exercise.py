@@ -70,6 +70,7 @@ def calibrated_simulation(
 
     for seed in tqdm(range(starting_seed, starting_seed + nsim), desc=f"{est_var}", total=nsim):
 
+        # Skip if the file already exists; this allows for resuming interrupted runs
         if os.path.exists(out_dir + f"/{seed}.feather"):
             continue
 

@@ -1,0 +1,47 @@
+services:
+  eb-replication:
+    build: .
+    platform: linux/amd64
+    container_name: eb-replication-env
+    volumes:
+      # Mount only output directories
+      - ./results:/app/results
+      - ./assets:/app/assets
+      # Not mounting the simulated_posterior_means_sample
+      - ./data/raw:/app/data/raw
+      - ./data/processed:/app/data/processed
+      - ./data/simulated_posterior_means:/app/data/simulated_posterior_means
+      # Mount MOSEK license from project directory
+      - ./mosek.lic:/app/mosek.lic:ro
+    environment:
+      - NUM_CORES=4
+      - PYTHONPATH=/app
+      # MOSEK license environment variable
+      - MOSEKLM_LICENSE_FILE=/app/mosek.lic
+    working_dir: /app
+    # Keep container running for interactive use
+    tty: true
+    stdin_open: true
+    # Optional: expose Jupyter port if needed
+    ports:
+      - "8888:8888"
+
+  eb-replication-test:
+    build: .
+    platform: linux/amd64
+    container_name: eb-replication-test-env
+    volumes:
+      # Mount only output directories
+      - ./results:/app/results
+      - ./data/raw:/app/data/raw # Mount raw data only and not simulated posterior means
+      # Mount MOSEK license from project directory
+      - ./mosek.lic:/app/mosek.lic:ro
+    environment:
+      - NUM_CORES=4
+      - PYTHONPATH=/app
+      # MOSEK license environment variable
+      - MOSEKLM_LICENSE_FILE=/app/mosek.lic
+    working_dir: /app
+    # Keep container running for interactive use
+    tty: true
+    stdin_open: true

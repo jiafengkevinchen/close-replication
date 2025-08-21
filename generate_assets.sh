@@ -1,3 +1,4 @@
+#!/bin/bash
 # Fig 1, 2, 3 and footnote 6
 python assets_introduction.py
 

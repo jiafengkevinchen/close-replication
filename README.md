@@ -5,13 +5,14 @@ jiafeng@stanford.edu
 
 MS-22935 for _Econometrica_
 
+This replication package is written with the assistance of GitHub Copilot and Claude Code.
 
 ## Quickstart
 
 To regenerate figures and tables _without_ regenerating/re-scoring the Monte Carlo
 data, simply run after installation:
 ```bash
-sh generate_assets.sh
+./generate_assets.sh
 ```
 This writes tables and figures to `assets/`
 
@@ -19,7 +20,7 @@ This writes tables and figures to `assets/`
 
 The code in this replication package does the following:
 1. Cleans raw data from Opportunity Atlas (Chetty et al., 2022)
-2. Generate Monte Carlo samples used in the empirical exercises (**Expensive**;
+2. Generate Monte Carlo samples used in the empirical exercises (**Time consuming**;
    pre-computed outputs included in `simulated_posterior_means.zip`)
 3. _Scores_ the Monte Carlo - i.e., computes statistics underlying tables and figures in
    the paper
@@ -33,14 +34,28 @@ Three main analysis files
 generate all 9 figures (5 in the main text, 4 in the online appendix) and 1 table (online
 appendix).
 
-A full replication of the Monte Carlo (step 2) is time-consuming and error-prone
-but extremely parallelizable (a few minutes per draw on a 2022 Apple M1 Max Mac Studio,
-$1000 \times 15$ draws. See [a note below on parallelism for details](#parallelism)). To
-avoid this, I have included a copy of the generated Monte Carlo output in
+A full replication of the Monte Carlo (step 2) is time-consuming
+but extremely parallelizable. See [a note below on parallelism for
+details](#parallelism). Full replication is also tricky because of an upstream problem
+where long-running Monte Carlos appear to fail silently (see
+[NOTE](#note-on-replicating-monte-carlo-data)) - though progress is saved and
+restarting a script resumes the progress.  I have included a copy of the generated Monte Carlo output in
 (`simulated_posterior_means.zip`; please reach out to jiafeng@stanford.edu if not found).
 
+Specifically, each exercise runs $M$ iterations for $V$ different outcome variables. Right
+now the code parallelizes over V but not over M. A rough estimate of time taken is in the
+table below (your mileage may vary on time per iteration):
+
+| exercise                       | time per iteration |  # total iterations | V | M | max core | estimated total hours at full parallelization |
+| ------------------------------ | ----------: | -----: | ----------: | ------------------: | -------: | --------------------------------------------: |
+| Calibrated simulation          |       1 min | 15,000 |          15 |               1,000 |       15 |                                         16.67 |
+| Validation (coupled bootstrap) |     \~2 min | 15,000 |          15 |               1,000 |       15 |                                         33.33 |
+| Weibull (OA5.3)                |     0.5 min |    600 |           6 |                 100 |        6 |                                          0.83 |
+| Additive model (OA5.4)         |     0.5 min |    600 |           6 |                 100 |        6 |                                          0.83 |
+
+
 In lieu of a full replication of the Monte Carlo generation, each Monte Carlo run can also
-be checked separately (things are expensive overall because there are a lot of runs).
+be checked separately (things are time-consuming overall because there are a lot of runs).
 I provide code for generating specific runs of the Monte Carlo exercise and checking against the data I provided. See
 [NOTE](#note-on-replicating-monte-carlo-data).
 
@@ -125,10 +140,18 @@ https://opportunityinsights.org/data/?geographic_level=0&topic=0&paper_id=1652#r
 
 ## Computational requirements and installation instructions
 
+### Option 1 (Docker)
+See [Docker instructions](./docker-instructions.md) for using a docker container.
+
+### Option 2 (Source)
+
 This replication package is written in Python, but it requires R and Mosek installations
 for certain functions to work. Bash scripts require [GNU
 Parallel](https://savannah.gnu.org/projects/parallel/), installed via your package
-manager (e.g. `brew install parallel` for Homebrew users).
+manager (e.g. `brew install parallel` for Homebrew users). Follow 1-4 below and check the
+installation.
+
+**Note: Rmosek is not supported on aarch64 Linux. See [here](https://docs.mosek.com/10.2/rmosek/install-interface.html) for a list of supported platforms**
 
 1. (**Python**) To set up the Python environment, simply use the following
 to create an environment called `eb-replication` from the `environment.yml` file. We will
@@ -140,6 +163,14 @@ need to activate the environment and work in it at all times.
 # See  https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html#creating-an-environment-from-an-environment-yml-file
 conda env create -f environment.yml
 conda activate eb-replication
+
+## If this didn't work, then a simple fall back is to create an empty environment and then use pip
+## Create and activate an empty environment with the correct python version
+# conda create -n eb-replication python=3.10
+# conda activate eb-replication
+
+## install using pip freshly without loading local cache
+# pip install --no-cache-dir -r requirements.txt
 ```
 
 2. (**Mosek**) The code is last run with [Mosek
@@ -156,7 +187,8 @@ R session from the command line, run
 renv::restore() # Reads packages from ./renv.lock and installs them
 ```
 
-4. (**Rmosek**) The last thing to do is to install `Rmosek`. The above should have installed the package.
+4. (**Rmosek**) The last thing to do is to install `Rmosek`. The above should have
+   installed the package Rmosek, but it needs to be built manually.
 Now, in an R session, if we call `library(Rmosek)` we would expect
 ```R
 > library(Rmosek)
@@ -325,7 +357,7 @@ with `data/processed/oa_data_used.feather`.
 simulation draws that depend on the cleaned data. These simulation draws---which we refer
 to as the _Monte Carlo data_---are directly saved in
 `data/simulated_posterior_means/`. The subsequent analysis only depends on the
-generated Monte Carlo data. **This step is expensive: For a partial
+generated Monte Carlo data. **This step is time consuming and error-prone: For a partial
 replication, one could directly proceed from the next step or step 4, without re-generating the
 Monte Carlo data (pre-computed Monte Carlo data from a previous run should be included in this
 replication package - contact jiafeng@stanford.edu if not).**
@@ -357,6 +389,8 @@ this _scoring_ the Monte Carlo data).
 (**Step 4 - Tables and figures**) Finally, the tables and figures are generated directly
 from the output of the last step. How each table/figure links to each python script is
 detailed below. `generate_assets.sh` simply runs all of them.
+
+**Note on figure output:** Figures with many scatter points (Figures 1-3) are saved in both PDF and PNG formats. PDF files use rasterized scatter points for smaller file sizes but may display inconsistently across PDF viewers (e.g., missing points in Chrome, artifacts in Preview). PNG files provide reliable viewing across all platforms.
 
 | Content                     | Script                   |
 |------------------------------------------|--------------------------|
@@ -403,6 +437,10 @@ with number names:
 A full replication of Step 2
 is time-consuming, but selective subsets of the output can be checked easily.
 
+#### Step 0: Change permissions
+Run `chmod +x *.sh` to allow the .sh files to be run as executables. Alternatively one may
+run `bash script.sh` to execute them.
+
 #### Step 1: Raw data cleaning
 ```python
 # Builds the raw analysis dataset from raw data
@@ -424,8 +462,6 @@ the Monte Carlo data. The [NOTE](#note-on-replicating-monte-carlo-data) below in
 # where [simulator-name] is one of "coupled_bootstrap-0.9",
 # "covariate_additive_model", "npmle_by_bins", "weibull"
 
-# Change this to change the number of cores used
-export NUM_CORES=5 # See parallelism note below
 rm -f logs/*          # Clear logs
 
 # -----------------------------------------------------------------------------
@@ -433,27 +469,34 @@ rm -f logs/*          # Clear logs
 # Can check corresponding files in logs/ to monitor
 
 # (monte_carlo.sh coupled_bootstrap.sh weibull_model.sh) do not need to be run sequentially.
-# They can be run concurrently in separate terminal sessions
+# They can be run concurrently
+
+# With &, scripts run in the background of the terminal session. It prints a pid,
+# use `ps -p [pid]` to check and `kill [pid]` to kill if necessary.
+
 # ------------------------------------------------
 # Calibrated simulation exercise
 # Time estimate: (1 minute per iteration x 15000 iterations) / min(#cores, 15)
-sh monte_carlo.sh       # To monitor: tail -F logs/mc_error*
+NUM_CORES=15 ./monte_carlo.sh &     # To monitor: tail -F logs/mc_error*
 
 # Validation exercise using coupled bootstrap
-# Time estimate: (1 minute per iteration x 15000 iterations) / min(#cores, 15)
-sh coupled_bootstrap.sh # To monitor: tail -F logs/error_*
+# Time estimate: (~2 minute per iteration x 15000 iterations) / min(#cores, 15)
+NUM_CORES=15 ./coupled_bootstrap.sh &  # To monitor: tail -F logs/error_*
 
 # Weibull exercise in OA5.3
 # Time estimate: (0.5 minute per iteration x 600 iterations) / min(#cores, 6)
-sh weibull_model.sh     # To monitor: tail -F logs/weibull_error*
+NUM_CORES=6 ./weibull_model.sh &   # To monitor: tail -F logs/weibull_error*
+
+# Monitor the progress of everything by counting files in the output directory
+# data/simulated_posterior_means
+./monitor.sh
 
 # -----------------------------------------------------------------------------
 # Additive model exercise in OA5.4
-# ***Assumes the output from coupled_bootstrap.sh already exists***
+# ***ASSUMES the output from coupled_bootstrap.sh already exists***
 # Saves results directly in results/covariate_additive_model/*.csv
 # Time estimate: (0.5 minute per iteration x 600 iterations) / min(#cores, 6)
-sh additive_model.sh    # To monitor: tail -F logs/cam_error*
-
+NUM_CORES=6 ./additive_model.sh &  # To monitor: tail -F logs/cam_error*
 ```
 
 #### Step 3: Computing table/figure-relevant statistics
@@ -476,7 +519,7 @@ python generate_scores.py --simulator-name weibull --nsim 100                # ~
 # Generate figures and tables in assets/
 # Assumes results/ is correctly populated with scored outputs
 
-sh generate_assets.sh
+./generate_assets.sh
 ```
 ---
 #### <a name="parallel"></a> Parallelism

@@ -1,4 +1,4 @@
-# Tests REBayes, Mosek, RPy2 installation
+# Tests REBayes, Mosek, RPy2 installation and system requirements
 import numpy as np
 import rpy2
 from rpy2.robjects import numpy2ri
@@ -6,6 +6,16 @@ from rpy2 import robjects as ro
 from rpy2.robjects.packages import importr
 import matplotlib.pyplot as plt
 import rpy2.situation
+import psutil
+
+# Check system memory
+print("=== System Requirements ===")
+total_memory = psutil.virtual_memory().total / (1024**3)  # GB
+available_memory = psutil.virtual_memory().available / (1024**3)  # GB
+print(f"Total system memory: {total_memory:.1f}GB")
+print(f"Available memory: {available_memory:.1f}GB")
+
+print("\n=== Package Installation Check ===")
 
 numpy2ri.activate()
 rebayes = importr("REBayes")

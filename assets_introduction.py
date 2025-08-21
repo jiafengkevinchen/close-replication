@@ -18,6 +18,7 @@ import matplotlib
 # Filter out MatplotlibDeprecationWarning
 warnings.filterwarnings("ignore", category=matplotlib.MatplotlibDeprecationWarning)
 
+matplotlib.use("Agg")
 
 sns.set_style("white")
 sns.set_context("paper")
@@ -78,7 +79,10 @@ plt.legend(loc=(0.05, 0.65), frameon=False)
 plt.xlabel("$\\log_{10}(\\sigma_i)$")
 plt.suptitle(title)
 plt.ylabel("Estimates $Y_i$")
+# Note: PDF output has rasterized scatter points which may display inconsistently across viewers
+# PNG output is provided for reliable viewing
 plt.savefig("assets/example_raw.pdf", bbox_inches="tight", dpi=500)
+plt.savefig("assets/example_raw.png", bbox_inches="tight", dpi=300)
 
 
 ## Figure 2: Posterior means
@@ -130,6 +134,7 @@ a2.set_xlabel("$\\log_{10}(\\sigma_i)$")
 plt.suptitle(title)
 
 plt.savefig("assets/example_eb_posterior_means.pdf", bbox_inches="tight")
+plt.savefig("assets/example_eb_posterior_means.png", bbox_inches="tight", dpi=300)
 
 
 ## Figure 3: selection example
@@ -237,6 +242,11 @@ plt.savefig(
     "assets/example_shrink_ranking.pdf",
     bbox_inches="tight",
     dpi=500,
+)
+plt.savefig(
+    "assets/example_shrink_ranking.png",
+    bbox_inches="tight",
+    dpi=300,
 )
 
 # differences = estimates[idx][1] - estimates[idx][0], cm[idx][1] - cm[idx][0]
