@@ -82,6 +82,16 @@ get_outcome_variables() {
     fi
 }
 
+# Count Monte Carlo seed outputs (five-digit .feather filenames)
+count_feather_files() {
+    local dir="$1"
+    if [[ -d "$dir" ]]; then
+        find "$dir" -type f -regex ".*/[0-9][0-9][0-9][0-9][0-9]\.feather" 2>/dev/null | wc -l
+    else
+        echo 0
+    fi
+}
+
 # Function to show progress for one simulator
 show_simulator_progress() {
     local simulator="$1"
@@ -100,7 +110,7 @@ show_simulator_progress() {
     echo "  Variables: $num_vars, Expected per variable: $expected_per_var"
     
     # Count total files first
-    total_completed=$(find "$data_dir" -name "*.feather" 2>/dev/null | wc -l)
+    total_completed=$(count_feather_files "$data_dir")
     
     # Show individual progress only for incomplete variables
     local incomplete_shown=0
@@ -115,7 +125,7 @@ show_simulator_progress() {
         local completed=0
         
         if [[ -d "$var_dir" ]]; then
-            completed=$(find "$var_dir" -name "*.feather" 2>/dev/null | wc -l)
+            completed=$(count_feather_files "$var_dir")
         fi
         
         # Only show individual variable progress if not complete and we haven't shown too many
@@ -175,7 +185,7 @@ show_progress() {
     echo "=== SUMMARY ==="
     for simulator in "${available_simulators[@]}"; do
         local data_dir="data/simulated_posterior_means/$simulator"
-        local total_files=$(find "$data_dir" -name "*.feather" 2>/dev/null | wc -l)
+        local total_files=$(count_feather_files "$data_dir")
         local num_vars=$(get_outcome_count "$simulator")
         local expected_total=$((num_vars * $(get_expected_files "$simulator")))
         local percentage=$((total_files * 100 / expected_total))
@@ -202,7 +212,7 @@ if command -v watch >/dev/null 2>&1; then
     
     # Export all functions and variables to the temp script
     {
-        declare -f show_progress show_simulator_progress get_outcome_variables get_expected_files get_outcome_count
+        declare -f show_progress show_simulator_progress get_outcome_variables get_expected_files get_outcome_count count_feather_files
         declare -p full_outcome_variables weibull_outcome_variables
         echo 'show_progress'
     } > "$temp_script"

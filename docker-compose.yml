@@ -27,6 +27,8 @@ services:
     ports:
       - "8888:8888"
 
+  # Minimal container that mounts only raw data (no processed or simulated outputs).
+  # Useful for validating scripts that should not see generated Monte Carlo files.
   eb-replication-test:
     image: replication-eb-replication:latest
     build: .
@@ -36,6 +38,8 @@ services:
       # Mount only output directories
       - ./results:/app/results
       - ./data/raw:/app/data/raw # Mount raw data only and not simulated posterior means
+      - ./data/processed_empty:/app/data/processed  # Mount processed data to an empty scratch directory
+      - ./data/simulated_posterior_means_empty:/app/data/simulated_posterior_means # Use an empty scratch directory
       # Mount MOSEK license from project directory
       - ./mosek.lic:/app/mosek.lic:ro
     environment:

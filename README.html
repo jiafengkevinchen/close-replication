@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>README</title>
+  <style>
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      background-color: #1a1a1a;
+      border: none;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+    /* CSS for syntax highlighting */
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+  <style>body { max-width: 1200px; margin: 0 auto; padding: 20px; } img { max-width: 100%; height: auto; }</style>
+</head>
+<body>
+<h1
+id="readme-for-empirical-bayes-when-estimation-precision-predicts-parameters">README
+for "Empirical Bayes When Estimation Precision Predicts Parameters"</h1>
+<p>Jiafeng Chen, Stanford University</p>
+<p><a href="mailto:jiafeng@stanford.edu">jiafeng@stanford.edu</a></p>
+<p>MS-22935 for <em>Econometrica</em></p>
+<p>This replication package is written with the assistance of GitHub
+Copilot, OpenAI Codex, and Claude Code.</p>
+<h2 id="quickstart">Quickstart</h2>
+<p>To regenerate figures and tables <em>without</em>
+regenerating/re-scoring the Monte Carlo data, simply run after
+installation:</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">./generate_assets.sh</span></span></code></pre></div>
+<p>This writes tables and figures to <code>assets/</code></p>
+<h2 id="overview">Overview</h2>
+<p>The code in this replication package does the following:</p>
+<ol type="1">
+<li>Cleans raw data from Opportunity Atlas (Chetty et al., 2022)</li>
+<li>Generate Monte Carlo samples used in the empirical exercises
+(<strong>Time consuming</strong>; pre-computed outputs included in
+<code>simulated_posterior_means.zip</code>)</li>
+<li><em>Scores</em> the Monte Carlo - i.e., computes statistics
+underlying tables and figures in the paper</li>
+<li>Builds figures and tables in the paper from the output of step
+3.</li>
+</ol>
+<p>For a partial replication, skip step 2 and use the included
+pre-computed output.</p>
+<p>Three main analysis files generate all 9 figures (5 in the main text,
+4 in the online appendix) and 1 table (online appendix).</p>
+<p>A full replication of the Monte Carlo (step 2) is time-consuming but
+extremely parallelizable. See <a href="#parallelism">a note below on
+parallelism for details</a>. Full replication is also tricky because of
+an upstream problem where long-running Monte Carlos appear to fail
+silently (see <a href="#note-on-replicating-monte-carlo-data">NOTE</a>)
+- though progress is saved and restarting a script resumes the progress.
+Please reach out to <a
+href="mailto:jiafeng@stanford.edu">jiafeng@stanford.edu</a> for a copy
+of the Monte Carlo output.</p>
+<p>Specifically, each exercise runs <span
+class="math inline"><em>M</em></span> iterations for <span
+class="math inline"><em>V</em></span> different outcome variables. Right
+now the code parallelizes over <span
+class="math inline"><em>V</em></span> but not over <span
+class="math inline"><em>M</em></span>. A rough estimate of time taken is
+in the table below (your mileage may vary on time per iteration):</p>
+<table>
+<thead>
+<tr>
+<th>exercise</th>
+<th style="text-align: right;">time per iteration</th>
+<th style="text-align: right;"># total iterations</th>
+<th style="text-align: right;">V</th>
+<th style="text-align: right;">M</th>
+<th style="text-align: right;">max core</th>
+<th style="text-align: right;">estimated total hours at full
+parallelization</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Calibrated simulation</td>
+<td style="text-align: right;">1 min</td>
+<td style="text-align: right;">15,000</td>
+<td style="text-align: right;">15</td>
+<td style="text-align: right;">1,000</td>
+<td style="text-align: right;">15</td>
+<td style="text-align: right;">16.67</td>
+</tr>
+<tr>
+<td>Validation (coupled bootstrap)</td>
+<td style="text-align: right;">~2 min</td>
+<td style="text-align: right;">15,000</td>
+<td style="text-align: right;">15</td>
+<td style="text-align: right;">1,000</td>
+<td style="text-align: right;">15</td>
+<td style="text-align: right;">33.33</td>
+</tr>
+<tr>
+<td>Weibull (OA5.3)</td>
+<td style="text-align: right;">0.5 min</td>
+<td style="text-align: right;">600</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">100</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">0.83</td>
+</tr>
+<tr>
+<td>Additive model (OA5.4)</td>
+<td style="text-align: right;">0.5 min</td>
+<td style="text-align: right;">600</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">100</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">0.83</td>
+</tr>
+</tbody>
+</table>
+<p>In lieu of a full replication of the Monte Carlo generation, each
+Monte Carlo run can also be checked separately (things are
+time-consuming overall because there are a lot of runs). I provide code
+for generating specific runs of the Monte Carlo exercise and checking
+against the data I provided. See <a
+href="#note-on-replicating-monte-carlo-data">NOTE</a>.</p>
+<p>All code is in Python, but NPMLE estimation relies on the package
+<code>rpy2</code>, R, and Mosek.</p>
+<h2 id="data-availability-and-provenance-statements">Data Availability
+and Provenance Statements</h2>
+<p>The data are taken from the published datasets by Chetty et al.
+(forthcoming) in Chetty et al. (2022) under CC-BY-4.0. They are
+available at <a
+href="https://opportunityinsights.org/data/?geographic_level=0&amp;topic=0&amp;paper_id=1652#resource-listing">https://opportunityinsights.org/data/?geographic_level=0&amp;topic=0&amp;paper_id=1652#resource-listing</a>
+(Accessed 2024-09-16).</p>
+<h3 id="statement-about-rights">Statement about Rights</h3>
+<p>[x] I certify that the author(s) of the manuscript have legitimate
+access to and permission to use the data used in this manuscript.</p>
+<p>[x] I certify that the author(s) of the manuscript have documented
+permission to redistribute/publish the data contained within this
+replication package. Appropriate permission are documented in the <a
+href="./LICENSE.txt">LICENSE</a> (./LICENSE.txt) file.</p>
+<h3 id="license-for-data">License for Data</h3>
+<p>The data are licensed under a CC-BY-4.0 license. See LICENSE.txt for
+details.</p>
+<h3 id="summary-of-availability">Summary of Availability</h3>
+<p>[x] All data <strong>are</strong> publicly available</p>
+<h3 id="details-on-each-dataset-and-data-source">Details on each dataset
+and data source</h3>
+<p>This package builds from the following raw data files, all from
+Chetty et al. (2022). They are downloaded at <a
+href="https://opportunityinsights.org/data/?geographic_level=0&amp;topic=0&amp;paper_id=1652#resource-listing">https://opportunityinsights.org/data/?geographic_level=0&amp;topic=0&amp;paper_id=1652#resource-listing</a>
+(Accessed 2024-09-16).</p>
+<ul>
+<li><p><code>data/raw/tract_covariates.dta</code> ("Neighborhood
+Characteristics by Census Tract"): <a
+href="https://opportunityinsights.org/wp-content/uploads/2018/10/tract_outcomes_dta.zip">https://opportunityinsights.org/wp-content/uploads/2018/10/tract_outcomes_dta.zip</a>
+(Accessed 2024-09-16)</p></li>
+<li><p><code>data/raw/tract_outcomes_early.csv</code> ("All Outcomes by
+Census Tract, Race, Gender and Parental Income Percentile"): <a
+href="https://opportunityinsights.org/wp-content/uploads/2018/10/tract_outcomes.zip">https://opportunityinsights.org/wp-content/uploads/2018/10/tract_outcomes.zip</a>
+(Accessed 2024-09-16)</p></li>
+</ul>
+<h2
+id="computational-requirements-and-installation-instructions">Computational
+requirements and installation instructions</h2>
+<h3 id="option-1-docker---recommended">Option 1 (Docker -
+recommended)</h3>
+<ol type="1">
+<li>Install Docker (see the <a
+href="https://docs.docker.com/get-started/get-docker/">official
+guides</a>). <em>Linux users:</em> if you hit a permission error, add
+your user to the <code>docker</code> group
+(<code>sudo usermod -aG docker $USER &amp;&amp; newgrp docker</code>).</li>
+<li>Place your <code>mosek.lic</code> in the project root.</li>
+<li>Load the pre-built image
+(<code>docker load &lt; eb-replication.tar.gz</code>)</li>
+<li>Start and enter the container:
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> compose up <span class="at">-d</span> eb-replication</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>   <span class="co"># eb-replication is a service defined in docker-compose.yml</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>   <span class="co"># eb-replication-test is another that is more suitable for replication the Monte Carlo data</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>   <span class="co"># see documentation in ./docker-compose.yml</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> compose exec eb-replication bash</span></code></pre></div></li>
+</ol>
+<p>For detailed troubleshooting and examples, see <a
+href="./docker-instructions.md">Docker instructions</a>
+(./docker-instructions.md).</p>
+<p>The docker-compose.yml file also provides an
+<code>eb-replication-test</code> service that mounts only raw data and
+an empty scratch directory for
+<code>/app/data/simulated_posterior_means</code>, so one can test
+without touching the already-generated Monte Carlo outputs.</p>
+<p><strong>Cleanup:</strong> when you're done, stop and remove the
+containers with</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> compose down</span></code></pre></div>
+<p>Use <code>docker compose down --volumes</code> if you also want to
+drop any Docker-managed volumes.</p>
+<p>To remove the docker image when one's done:
+<code>docker rmi replication-eb-replication:latest</code>. Make sure
+<code>replication-eb-replication:latest</code> matches what's shown in
+<code>docker images</code>.</p>
+<h3 id="option-2-source">Option 2 (Source)</h3>
+<p>If Docker is not an option, use the host installation walkthrough in
+<a href="./source-install.md">source-install.md</a>
+(./source-install.md). It covers:</p>
+<ul>
+<li>Python 3.10 environment setup with pip requirements</li>
+<li>R 4.4.0 + renv restore and the Rmosek builder steps</li>
+<li>MOSEK 10.2.5 licensing/configuration and GNU Parallel</li>
+<li>Verification commands (<code>python -m rpy2.situation</code>,
+<code>python test.py</code>, targeted Monte Carlo checks)</li>
+</ul>
+<p>Use this path only if you are comfortable managing those dependencies
+manually.</p>
+<h3 id="controlled-randomness">Controlled Randomness</h3>
+<p>Random seed is set at:</p>
+<ul>
+<li>Line 173 of <code>covariate_additive_model.py</code></li>
+<li>Line 226 of <code>empirical_exercise.py</code></li>
+</ul>
+<p>Note: <code>REBayes::GLmix</code> uses <code>REBayes::KWDual</code>
+to interact with an underlying MOSEK optimizer. This optimizer may
+introduce additional randomness that cannot be seeded from the Python
+side. As far as I'm aware, <code>REBayes</code> does not expose a
+seeding option for this solver.</p>
+<h3 id="memory-runtime-storage-requirements">Memory, Runtime, Storage
+Requirements</h3>
+<ul>
+<li>&lt;10 minutes (reproducing from scored Monte Carlo outputs—i.e.,
+starting from step 4)</li>
+<li>10–60 minutes (reproducing from Monte Carlo outputs—i.e., starting
+from step 3)</li>
+<li>1–3 days (full reproduction starting from step 1 or 2)</li>
+</ul>
+<p>The code was last run on a 2022 Mac Studio, 32 GB RAM, Apple M1
+Max.</p>
+<h2
+id="description-of-programscode-and-instruction-to-replicators">Description
+of programs/code and instruction to replicators</h2>
+<h3 id="overview-1">Overview</h3>
+<p>The replication process is modularized as follows. Each step saves
+output to the disk that the next step depends on. These outputs are
+included in the replication package transmitted to the data editor, and
+so <strong>partial replications can start from any step</strong>. For
+instance, directly going to step 4 generates all tables and figures.</p>
+<p>(<strong>Step 1 - Raw data cleaning</strong>)
+<code>build_data.py</code> performs basic cleaning on the raw
+Opportunity Atlas data and saves the processed data in
+<code>data/processed/oa_data_used.feather</code>. The rest of the
+analysis proceeds only with
+<code>data/processed/oa_data_used.feather</code>.</p>
+<p>(<strong>Step 2 - Monte Carlo data generation</strong>) Most
+empirical exercises in the paper aggregate over simulation draws that
+depend on the cleaned data. These simulation draws---which we refer to
+as the <em>Monte Carlo data</em>---are directly saved in
+<code>data/simulated_posterior_means/</code>. The subsequent analysis
+only depends on the generated Monte Carlo data. <strong>This step is
+time consuming and error-prone: For a partial replication, one could
+directly proceed from the next step or step 4, without re-generating the
+Monte Carlo data (pre-computed Monte Carlo data from a previous run
+should be included in this replication package - contact <a
+href="mailto:jiafeng@stanford.edu">jiafeng@stanford.edu</a> if
+not).</strong></p>
+<p>One could also selectively verify subsets of the output generated by
+this step, as opposed to regenerating every simulation run: For
+instance,</p>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode python"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Selective verification of `data/simulated_posterior_means/npmle_by_bins/kfr_top20_black_pooled_p25/94682.feather` (94682=94301+381)</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>python check_monte_carlo.py <span class="op">--</span>simulator_name npmle_by_bins <span class="op">--</span>est_var kfr_top20_black_pooled_p25  <span class="op">--</span>seed_number <span class="dv">381</span></span></code></pre></div>
+<p>See <a href="#note-on-replicating-monte-carlo-data">NOTE</a> below
+for detailed instructions.</p>
+<p>The Monte Carlo data are generated by the following bash scripts:</p>
+<ul>
+<li><code>./monte_carlo.sh</code> runs the calibrated simulation
+exercise</li>
+<li><code>./coupled_bootstrap.sh</code> runs the coupled bootstrap
+exercise</li>
+<li><code>./weibull_model.sh</code> runs the Weibull distribution
+exercise in online appendix</li>
+<li><code>./additive_model.sh</code> runs an additional model exercise
+in online appendix</li>
+</ul>
+<p>(<strong>Step 3 - Computations on the Monte Carlo data whose output
+underlies the figures</strong>) Various statistics underlying tables and
+figures are computed on the Monte Carlo data (We call this
+<em>scoring</em> the Monte Carlo data).
+<code>./generate_scores.py</code> takes Monte Carlo results in
+<code>data/simulated_posterior_means/</code> and scores them. It saves
+results in <code>results/[SimulatorName]/*.csv</code>, where
+<code>SimulatorName</code> is one of
+{<code>coupled_bootstrap-0.9</code>,
+<code>covariate_additive_model</code>, <code>npmle_by_bins</code>,
+<code>weibull</code>}</p>
+<p>(<strong>Step 4 - Tables and figures</strong>) Finally, the tables
+and figures are generated directly from the output of the last step. How
+each table/figure links to each python script is detailed below.
+<code>generate_assets.sh</code> simply runs all of them.</p>
+<p><strong>Note on figure output:</strong> Figures with many scatter
+points (Figures 1-3) are saved in both PDF and PNG formats. PDF files
+use rasterized scatter points for smaller file sizes but may display
+inconsistently across PDF viewers (e.g., missing points in Chrome,
+artifacts in Preview). PNG files provide reliable viewing across all
+platforms.</p>
+<table>
+<thead>
+<tr>
+<th>Content</th>
+<th>Script</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Figures 1–3</td>
+<td><code>./assets_introduction.py</code></td>
+</tr>
+<tr>
+<td>Footnote 6 voice over</td>
+<td><code>./assets_introduction.py</code></td>
+</tr>
+<tr>
+<td>Figures 4–5</td>
+<td><code>./assets_empirical.py</code></td>
+</tr>
+<tr>
+<td>Table OA5.1</td>
+<td><code>./assets_appendix.py</code></td>
+</tr>
+<tr>
+<td>Figures OA5.1–OA5.4</td>
+<td><code>./assets_appendix.py</code></td>
+</tr>
+</tbody>
+</table>
+<h4 id="lower-level-files-and-additional-dependencies">Lower-level files
+and additional dependencies</h4>
+<p>These steps depend on the following lower-level files:</p>
+<ol type="1">
+<li><p><code>empirical_exercise.py</code> samples either calibrated
+Monte Carlo simulation or coupled bootstrap simulation. It then computes
+various posterior mean estimates using various empirical Bayes or
+non-empirical Bayes methods. The <code>.sh</code> files in Step 2 are
+essentially wrappers that call
+<code>empirical_exercise.py</code>.</p></li>
+<li><p><code>covariate_additive_model.py</code> runs CLOSE-NPMLE with a
+flexible additive model for covariates. This is only relevant for
+<code>./additive_model.sh</code></p></li>
+<li><p>Helpers:</p></li>
+</ol>
+<ul>
+<li><code>residualize.py</code> implements linear residualization by
+covariates</li>
+<li><code>conditional_means/</code> contains methods for estimating
+conditional means</li>
+<li><code>empirical_bayes/</code> contains methods for implementing
+empirical Bayes methods</li>
+<li><code>postprocessing/</code> contains methods for computing various
+metrics and visualization</li>
+<li><code>simulator/</code> contains code for implementing various
+methods for simulation synthetic data from raw data</li>
+</ul>
+<h3 id="instructions-to-replicators">Instructions to replicators</h3>
+<p>Below are code snippets for reproducing each step described in the
+list above. <strong>I recommend starting with Steps 3 or 4 to check if
+everything replicates given the Monte Carlo output.</strong> Run all
+code from the top level of the directory.</p>
+<p>The Monte Carlo output should be included as
+<code>simulated_posterior_means.zip</code> (please contact <a
+href="mailto:jiafeng@stanford.edu">jiafeng@stanford.edu</a> if not).
+This file can be unzipped into <code>data/</code>, where
+<code>data/simulated_posterior_means/</code> should include three
+directories <code>coupled_bootstrap-0.9</code>,
+<code>npmle_by_bins</code>, and <code>weibull</code>. Each of these
+three directories should then contain subdirectories with variable names
+like <code>kfr_black_male_p25</code>. There should be 1000 or 100
+<code>.feather</code> files in these directories, with number names:</p>
+<p><img src="directory.png" alt="Directory structure" /></p>
+<p>A full replication of Step 2 is time-consuming, but selective subsets
+of the output can be checked easily.</p>
+<h4 id="step-0-change-permissions">Step 0: Change permissions</h4>
+<p>Run <code>chmod +x *.sh</code> to allow the .sh files to be run as
+executables. Alternatively one may run <code>bash script.sh</code> to
+execute them.</p>
+<h4 id="step-1-raw-data-cleaning">Step 1: Raw data cleaning</h4>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode python"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Builds the raw analysis dataset from raw data</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>python build_data.py</span></code></pre></div>
+<p>Note: if run inside the <code>eb-replication</code> service, then
+this overwrites the current file in <code>data/processed</code>. If one
+works with the container <code>eb-replication-test</code> instead of
+<code>eb-replication</code>, then <code>app/data/processed</code> in the
+container is mounted to <code>./data/processed_empty</code>.</p>
+<h4 id="step-2-monte-carlo-data-generation">Step 2: Monte Carlo data
+generation</h4>
+<p>The following bash commands runs each bash script and generates the
+Monte Carlo data.</p>
+<p>NB: This is the most time-consuming and error-prone step (see <a
+href="#note-on-replicating-monte-carlo-data">NOTE</a> below): The output
+of this step is included in the replication package directly. Moreover,
+optionally, instead of fully replicating this step, one could verify a
+small subset of the Monte Carlo data. The <a
+href="#note-on-replicating-monte-carlo-data">NOTE</a> below includes
+instructions for doing so.</p>
+<p>If one decides to run a full replication, before starting to
+replicate, <strong>ensure that
+<code>data/simulated_posterior_means</code> is empty</strong>.</p>
+<p>To enforce <code>data/simulated_posterior_means</code> is empty,
+start the test service with
+<code>docker compose up -d eb-replication-test</code> and work within
+the container <code>eb-replication-test</code> instead of
+<code>eb-replication</code>; <code>eb-replication-test</code> mounts an
+empty scratch directory at
+<code>/app/data/simulated_posterior_means</code> (in container) linked
+to <code>data/simulated_posterior_means_empty/</code> (local).</p>
+<div class="sourceCode" id="cb6"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Run the Monte Carlo</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="co"># The following generates results/[simulator-name]</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co"># where [simulator-name] is one of &quot;coupled_bootstrap-0.9&quot;,</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co"># &quot;covariate_additive_model&quot;, &quot;npmle_by_bins&quot;, &quot;weibull&quot;</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span> <span class="at">-f</span> logs/<span class="pp">*</span>          <span class="co"># Clear logs</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="co"># -----------------------------------------------------------------------------</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Time consuming, the progress bar is written to std.err, which is written to logs/.</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Can check corresponding files in logs/ to monitor</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a><span class="co"># (monte_carlo.sh coupled_bootstrap.sh weibull_model.sh) do not need to be run sequentially.</span></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a><span class="co"># They can be run concurrently</span></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a><span class="co"># With &amp;, scripts run in the background of the terminal session and print a PID for the wrapper process.</span></span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a><span class="co"># That PID does not own the python workers; use `kill -- -[pid]` (note leading minus) or `pkill -P [pid]` to stop everything.</span></span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a><span class="co"># ------------------------------------------------</span></span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Calibrated simulation exercise</span></span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Time estimate: (1 minute per iteration x 15000 iterations) / min(#cores, 15)</span></span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a><span class="co"># The NUM_CORES options below are by default the maximum the code would benefit from.</span></span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a><span class="co"># Higher core counts won&#39;t break anything - the code takes a minimum.</span></span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a><span class="va">NUM_CORES</span><span class="op">=</span>15 <span class="ex">./monte_carlo.sh</span> <span class="kw">&amp;</span>     <span class="co"># To monitor: tail -F logs/mc_error*</span></span>
+<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a><span class="co"># Validation exercise using coupled bootstrap</span></span>
+<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a><span class="co"># Time estimate: (~2 minute per iteration x 15000 iterations) / min(#cores, 15)</span></span>
+<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a><span class="va">NUM_CORES</span><span class="op">=</span>15 <span class="ex">./coupled_bootstrap.sh</span> <span class="kw">&amp;</span>  <span class="co"># To monitor: tail -F logs/error_*</span></span>
+<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-30"><a href="#cb6-30" aria-hidden="true" tabindex="-1"></a><span class="co"># Weibull exercise in OA5.3</span></span>
+<span id="cb6-31"><a href="#cb6-31" aria-hidden="true" tabindex="-1"></a><span class="co"># Time estimate: (0.5 minute per iteration x 600 iterations) / min(#cores, 6)</span></span>
+<span id="cb6-32"><a href="#cb6-32" aria-hidden="true" tabindex="-1"></a><span class="va">NUM_CORES</span><span class="op">=</span>6 <span class="ex">./weibull_model.sh</span> <span class="kw">&amp;</span>   <span class="co"># To monitor: tail -F logs/weibull_error*</span></span>
+<span id="cb6-33"><a href="#cb6-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-34"><a href="#cb6-34" aria-hidden="true" tabindex="-1"></a><span class="co"># Monitor the progress of everything by counting files in the output directory</span></span>
+<span id="cb6-35"><a href="#cb6-35" aria-hidden="true" tabindex="-1"></a><span class="co"># data/simulated_posterior_means</span></span>
+<span id="cb6-36"><a href="#cb6-36" aria-hidden="true" tabindex="-1"></a><span class="ex">./monitor.sh</span></span>
+<span id="cb6-37"><a href="#cb6-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-38"><a href="#cb6-38" aria-hidden="true" tabindex="-1"></a><span class="co"># -----------------------------------------------------------------------------</span></span>
+<span id="cb6-39"><a href="#cb6-39" aria-hidden="true" tabindex="-1"></a><span class="co"># Additive model exercise in OA5.4</span></span>
+<span id="cb6-40"><a href="#cb6-40" aria-hidden="true" tabindex="-1"></a><span class="co"># ***ASSUMES the output from coupled_bootstrap.sh already exists***</span></span>
+<span id="cb6-41"><a href="#cb6-41" aria-hidden="true" tabindex="-1"></a><span class="co"># Saves results directly in results/covariate_additive_model/*.csv</span></span>
+<span id="cb6-42"><a href="#cb6-42" aria-hidden="true" tabindex="-1"></a><span class="co"># Time estimate: (0.5 minute per iteration x 600 iterations) / min(#cores, 6)</span></span>
+<span id="cb6-43"><a href="#cb6-43" aria-hidden="true" tabindex="-1"></a><span class="va">NUM_CORES</span><span class="op">=</span>6 <span class="ex">./additive_model.sh</span> <span class="kw">&amp;</span>  <span class="co"># To monitor: tail -F logs/cam_error*</span></span></code></pre></div>
+<h4 id="step-3-computing-tablefigure-relevant-statistics">Step 3:
+Computing table/figure-relevant statistics</h4>
+<div class="sourceCode" id="cb7"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co">### Assumes that data/simulated_posterior_means/ is populated,</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="co">### either because Step 2 is run or because the included Monte Carlo</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="co">### output simulated_posterior_means.zip is unzipped.</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Clean up the generated raw Monte Carlo results</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> generate_scores.py <span class="at">--simulator-name</span> coupled_bootstrap-0.9 <span class="at">--nsim</span> 1000 <span class="co"># ~20 minutes</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> generate_scores.py <span class="at">--simulator-name</span> npmle_by_bins <span class="at">--nsim</span> 1000         <span class="co"># ~1.5 minute</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> generate_scores.py <span class="at">--simulator-name</span> weibull <span class="at">--nsim</span> 100                <span class="co"># ~5 seconds</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="co"># The additive model results are scored directly in additive_model.sh</span></span></code></pre></div>
+<h4 id="step-4-creating-tables-and-figures">Step 4: Creating tables and
+figures</h4>
+<div class="sourceCode" id="cb8"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate figures and tables in assets/</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Assumes results/ is correctly populated with scored outputs</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="ex">./generate_assets.sh</span></span></code></pre></div>
+<hr />
+<h4 id="parallelism">Parallelism</h4>
+<p>The .sh files in step 2 runs the following script in parallel
+<strong>over <code>est_var</code></strong></p>
+<div class="sourceCode" id="cb9"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Generates draws over seeds 94301 - (94301+nsim-1) for simulator [simulator] and outcome variable [est_var]. See table below for combinations of these arguments</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> empirical_exercise.py</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="ex">--simulator-name</span> <span class="pp">[</span><span class="ss">simulator</span><span class="pp">-</span><span class="ss">name</span><span class="pp">]</span> <span class="dt">\</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>--methods <span class="pp">[</span><span class="ss">methods</span><span class="pp">-</span><span class="ss">for</span><span class="pp">-</span><span class="ss">simulator</span><span class="pp">]</span> <span class="dt">\</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>--nsim <span class="pp">[</span><span class="ss">nsim</span><span class="pp">-</span><span class="ss">for</span><span class="pp">-</span><span class="ss">simulator</span><span class="pp">]</span> <span class="dt">\</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>--starting_seed 94301 <span class="dt">\</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>--est_var <span class="pp">[</span><span class="ss">est_var</span><span class="pp">]</span></span></code></pre></div>
+<p>Across the various empirical exercises, <code>est_var</code> ranges
+over 6 to 15 choices. As a result, we would only benefit from at most 15
+cores.</p>
+<p>Alternatively, one could further parallelize by running, e.g., the
+following in parallel. This would parallelize within a single
+<code>est_var</code>.</p>
+<div class="sourceCode" id="cb10"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Runs seeds 94301-94800</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> empirical_exercise.py <span class="at">--simulator-name</span> <span class="pp">[</span><span class="ss">simulator</span><span class="pp">-</span><span class="ss">name</span><span class="pp">]</span>  <span class="at">--methods</span> <span class="pp">[</span><span class="ss">methods</span><span class="pp">-</span><span class="ss">for</span><span class="pp">-</span><span class="ss">simulator</span><span class="pp">]</span> <span class="at">--nsim</span> 500 <span class="at">--starting_seed</span> 94301 <span class="at">--est_var</span> <span class="pp">[</span><span class="ss">est_var</span><span class="pp">]</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Runs seeds 94801-95300</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> empirical_exercise.py <span class="at">--simulator-name</span> <span class="pp">[</span><span class="ss">simulator</span><span class="pp">-</span><span class="ss">name</span><span class="pp">]</span>  <span class="at">--methods</span> <span class="pp">[</span><span class="ss">methods</span><span class="pp">-</span><span class="ss">for</span><span class="pp">-</span><span class="ss">simulator</span><span class="pp">]</span> <span class="at">--nsim</span> 500 <span class="at">--starting_seed</span> 94801 <span class="at">--est_var</span> <span class="pp">[</span><span class="ss">est_var</span><span class="pp">]</span></span></code></pre></div>
+<p>Doing so is a little memory inefficient because runs using the same
+<code>est_var</code> share underlying data.</p>
+<table>
+<thead>
+<tr>
+<th>Simulator name</th>
+<th>Outcome variable names</th>
+<th>Seed range</th>
+<th>Methods</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>coupled_bootstrap-0.9</code></td>
+<td>One of
+<code>("kfr_pooled_pooled_p25"  "kfr_white_male_p25"  "kfr_black_male_p25"  "kfr_black_pooled_p25" "kfr_white_pooled_p25" "jail_black_male_p25" "jail_white_male_p25" "jail_black_pooled_p25" "jail_white_pooled_p25" "jail_pooled_pooled_p25" "kfr_top20_black_male_p25" "kfr_top20_white_male_p25" "kfr_top20_black_pooled_p25" "kfr_top20_white_pooled_p25" "kfr_top20_pooled_pooled_p25")</code></td>
+<td>94301-95300</td>
+<td><code>all</code></td>
+</tr>
+<tr>
+<td><code>npmle_by_bins</code></td>
+<td>One of
+<code>("kfr_pooled_pooled_p25"  "kfr_white_male_p25"  "kfr_black_male_p25"  "kfr_black_pooled_p25" "kfr_white_pooled_p25" "jail_black_male_p25" "jail_white_male_p25" "jail_black_pooled_p25" "jail_white_pooled_p25" "jail_pooled_pooled_p25" "kfr_top20_black_male_p25" "kfr_top20_white_male_p25" "kfr_top20_black_pooled_p25" "kfr_top20_white_pooled_p25" "kfr_top20_pooled_pooled_p25")</code></td>
+<td>94301-95300</td>
+<td><code>all</code></td>
+</tr>
+<tr>
+<td><code>weibull</code></td>
+<td>One of
+<code>("kfr_pooled_pooled_p25"  "kfr_black_pooled_p25"  "jail_black_pooled_p25" "jail_pooled_pooled_p25" "kfr_top20_black_pooled_p25" "kfr_top20_pooled_pooled_p25")</code></td>
+<td>94301 - 94400</td>
+<td><code>indep_gauss,close_npmle,close_gauss,close_gauss_parametric</code></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<hr />
+<h4 id="note-on-replicating-monte-carlo-data">NOTE: on replicating Monte
+Carlo data</h4>
+<p>For some upstream reason having to do with MOSEK or REBayes, running
+monte_carlo.sh for many iterations might silently fail, due to a memory
+leak. When it fails, the code would appear to run but resource
+consumption is low and no new output is generated. Interrupting the code
+prints <code>Segmentation fault</code>. I find it quite difficult to
+reproduce the issue, as there's no fixed data seed causing a problem.
+When this happens, interrupting and restarting resolves the issue. This
+has only happened when I repeatedly apply NPMLE to sample new data and
+to estimate various methods.</p>
+<p>Each Monte Carlo draw results in a file of the form</p>
+<pre><code>data/simulated_posterior_means/[SimulatorName]/[VariableName]/[Seed].feather.</code></pre>
+<p>It is not time-consuming to regenerate and verify a given file - the
+<em>number</em> of these files makes it time-consuming overall. I have
+included a script that generates a new Monte Carlo draw for a particular
+seed <code>seed_number</code> and a particular outcome variable
+<code>est_var</code></p>
+<div class="sourceCode" id="cb12"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># See the table below for valid options for --est_var and --simulator_name</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="co"># --est_var: Outcome variable being P(top 20 | Black, pooled, parents at 25th percentile)</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="co"># --seed_number: The seed used is 94301 + (seed_number mod seed_range). In this case we check seed 94682</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="co"># --simulator_name: Simulator name = npmle_by_bins, coupled_bootstrap-0.9, weibull</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> check_monte_carlo.py <span class="at">--est_var</span> kfr_top20_black_pooled_p25  <span class="at">--seed_number</span> 381 <span class="at">--simulator_name</span> npmle_by_bins</span></code></pre></div>
+<p><code>check_monte_carlo.py</code> works by generating a specific draw
+of the Monte Carlo data, saves it in
+<code>data/simulated_posterior_means_sample</code>, and compares it
+against its counterpart in <code>data/simulated_posterior_means</code>.
+I have found that different hardware/version would only agree up to
+something like <code>1e-6</code>, and so I check agreement between two
+files by regressing one on the other. A typical output is as follows
+across two machines - the regression fit is essentially perfect.</p>
+<pre><code>- Project &#39;~/Library/CloudStorage/Dropbox/research/empirical-bayes/replication&#39; loaded. [renv 1.1.4]
+- The project is out-of-sync -- use `renv::status()` for details.
+Checking Monte Carlo outputs...
+kfr_top20_black_pooled_p25: 100%|███████████████████████████████████████████████████████████████████████████████████████████| 1/1 [00:00&lt;00:00, 14315.03it/s]
+--------------------------------------------------
+Seed: 94682
+Outcome variable: kfr_top20_black_pooled_p25
+Simulator name: npmle_by_bins
+Correlation between original and new Monte Carlo samples
+(some differences may exist due to hardware or version):
+--------------------------------------------------
+                              Correlation     Intercept  Regression Coef
+naive                            1.000000 -1.370503e-07         1.000000
+indep_npmle                      0.999999  5.062243e-07         0.999980
+indep_gauss                      1.000000  1.034661e-06         0.999973
+close_npmle                      1.000000 -8.168789e-08         1.000002
+close_gauss                      1.000000  1.060407e-07         0.999997
+close_gauss_parametric           1.000000  3.004981e-07         0.999993
+oracle                           1.000000 -2.953876e-07         1.000003
+truth                            1.000000 -2.181302e-07         1.000002
+indep_npmle_nocov                1.000000 -4.812911e-07         1.000013
+indep_gauss_nocov                0.999999 -5.065023e-07         1.000019
+close_npmle_nocov                1.000000 -1.943102e-07         1.000002
+close_gauss_nocov                1.000000 -1.923112e-07         1.000001
+close_gauss_parametric_nocov     1.000000 -1.189520e-07         1.000000
+true_covariate_fn                1.000000 -2.741553e-14         1.000000
+truth_residualized               1.000000 -2.106331e-07         1.000003
+--------------------------------------------------</code></pre>
+<h2 id="references">References</h2>
+<p>Chetty, Raj, John Friedman, Nathaniel Hendren, Maggie R. Jones, and
+Sonya R. Porter, “Replication Data for: The Opportunity Atlas: Mapping
+the Childhood Roots of Social Mobility,” 2022.</p>
+<p>Chetty, Raj, John Friedman, Nathaniel Hendren, Maggie R. Jones, and
+Sonya R. Porter, “The opportunity atlas: Mapping the childhood roots of
+social mobility,” American Economic Review, forthcoming.</p>
+<p>O. Tange (2018): GNU Parallel 2018, March 2018, <a
+href="https://doi.org/10.5281/zenodo.1146014">https://doi.org/10.5281/zenodo.1146014</a>.</p>
+</body>
+</html>

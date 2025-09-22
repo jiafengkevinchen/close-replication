@@ -14,6 +14,21 @@ environment for analysis
 
 On Linux, use `sudo docker run hello-world` to check installation status
 
+#### Linux post-install permissions
+
+If you get `permission denied` running Docker without `sudo`, add your user to the
+`docker` group and reload your session:
+
+```bash
+sudo usermod -aG docker $USER
+newgrp docker
+groups        # Verify that "docker" appears in the list
+```
+
+After this, you should be able to run commands such as `docker load` or
+`docker compose` without prefixing them with `sudo`. Alternatively, keep using
+`sudo docker ...` if you prefer not to modify group membership.
+
 ## 2. Set Up the Replication Environment
 
 ### Prerequisites

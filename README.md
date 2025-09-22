@@ -5,7 +5,7 @@ jiafeng@stanford.edu
 
 MS-22935 for _Econometrica_
 
-This replication package is written with the assistance of GitHub Copilot and Claude Code.
+This replication package is written with the assistance of GitHub Copilot, OpenAI Codex, and Claude Code.
 
 ## Quickstart
 
@@ -26,9 +26,7 @@ The code in this replication package does the following:
    the paper
 4. Builds figures and tables in the paper from the output of step 3.
 
-For a partial replication, skip step 2 and use the included pre-computed output
-(stored in `simulated_posterior_means.zip`; please reach out to jiafeng@stanford.edu if not found).
-
+For a partial replication, skip step 2 and use the included pre-computed output.
 
 Three main analysis files
 generate all 9 figures (5 in the main text, 4 in the online appendix) and 1 table (online
@@ -39,11 +37,11 @@ but extremely parallelizable. See [a note below on parallelism for
 details](#parallelism). Full replication is also tricky because of an upstream problem
 where long-running Monte Carlos appear to fail silently (see
 [NOTE](#note-on-replicating-monte-carlo-data)) - though progress is saved and
-restarting a script resumes the progress.  I have included a copy of the generated Monte Carlo output in
-(`simulated_posterior_means.zip`; please reach out to jiafeng@stanford.edu if not found).
+restarting a script resumes the progress. Please reach out to jiafeng@stanford.edu for a
+copy of the Monte Carlo output.
 
 Specifically, each exercise runs $M$ iterations for $V$ different outcome variables. Right
-now the code parallelizes over V but not over M. A rough estimate of time taken is in the
+now the code parallelizes over $V$ but not over $M$. A rough estimate of time taken is in the
 table below (your mileage may vary on time per iteration):
 
 | exercise                       | time per iteration |  # total iterations | V | M | max core | estimated total hours at full parallelization |
@@ -59,43 +57,8 @@ be checked separately (things are time-consuming overall because there are a lot
 I provide code for generating specific runs of the Monte Carlo exercise and checking against the data I provided. See
 [NOTE](#note-on-replicating-monte-carlo-data).
 
-All code is in Python, but NPMLE estimation relies on the package
-`rpy2`, R, and Mosek.
+All code is in Python, but NPMLE estimation relies on the package `rpy2`, R, and Mosek.
 
-The directory structure is as follows
-```
-.
-├── additive_model.sh                Monte Carlo run for covariate additive model in the appendix (Step 2)
-├── assets/                          Final figs/tables; produced by generate_assets.sh
-├── assets_appendix.py
-├── assets_empirical.py
-├── assets_introduction.py
-├── build_data.py                    Step 1 script
-├── check_monte_carlo.py             Tools for selective verification of step 2
-├── conditional_means/               Utilities
-├── coupled_bootstrap.sh             Monte Carlo run for coupled bootstrap exercise (Step 2)
-├── covariate_additive_model.py
-├── data                             Raw data, processed data, and Monte Carlo generated results
-├── empirical_bayes                  Library code
-├── empirical_exercise.py            Code underlying, e.g., coupled_bootstrap.sh
-├── environment.yml                  Python dependencies
-├── generate_assets.sh               Step 4 script
-├── generate_scores.py               Step 3 script
-├── LICENSE.txt
-├── logs                             Monte Carlo replication writes logs here
-├── monte_carlo.sh                   Monte Carlo run for npmle_by_bins exercise (Step 2)
-├── postprocessing                   Library code for scoring and figures
-├── README.md
-├── renv                             R’s library folder (auto-created)
-├── renv.lock                        R dependencies
-├── residualize.py                   Library code
-├── results                          Output from step 3
-├── simulator                        Library code
-├── test.png                         test.py output
-├── test.py                          Checking Python/R/Mosek installation
-├── test.R                           Checking Python/R/Mosek installation
-└── weibull_model.sh                 Monte Carlo replication for Weibull exercise in the appendix (Step 2)
-```
 
 ## Data Availability and Provenance Statements
 
@@ -111,7 +74,7 @@ Chetty et al. (2022) under CC-BY-4.0. They are available at https://opportunityi
 [x] I certify that the author(s) of the manuscript have documented
   permission to redistribute/publish the data contained within this
   replication package. Appropriate permission are documented in the
-  [LICENSE](https://social-science-data-editors.github.io/template_README/LICENSE.txt)
+  [LICENSE](./LICENSE.txt) (./LICENSE.txt)
   file.
 
 ### License for Data
@@ -140,204 +103,67 @@ https://opportunityinsights.org/data/?geographic_level=0&topic=0&paper_id=1652#r
 
 ## Computational requirements and installation instructions
 
-### Option 1 (Docker)
-See [Docker instructions](./docker-instructions.md) for using a docker container.
+### Option 1 (Docker - recommended)
+
+1. Install Docker (see the [official guides](https://docs.docker.com/get-started/get-docker/)).
+   *Linux users:* if you hit a permission error, add your user to the `docker` group (`sudo usermod -aG docker $USER && newgrp docker`).
+2. Place your `mosek.lic` in the project root.
+3. Load the pre-built image (`docker load < eb-replication.tar.gz`)
+4. Start and enter the container:
+   ```bash
+   docker compose up -d eb-replication
+
+      # eb-replication is a service defined in docker-compose.yml
+      # eb-replication-test is another that is more suitable for replication the Monte Carlo data
+      # see documentation in ./docker-compose.yml
+
+   docker compose exec eb-replication bash
+   ```
+
+For detailed troubleshooting and examples, see [Docker
+instructions](./docker-instructions.md) (./docker-instructions.md).
+
+The docker-compose.yml file also provides an `eb-replication-test` service that mounts only raw data and an empty scratch directory for `/app/data/simulated_posterior_means`, so one can test without touching the already-generated Monte Carlo outputs.
+
+**Cleanup:** when you're done, stop and remove the containers with
+```bash
+docker compose down
+```
+Use `docker compose down --volumes` if you also want to drop any Docker-managed volumes.
+
+To remove the docker image when one's done:
+`docker rmi replication-eb-replication:latest`. Make sure
+`replication-eb-replication:latest` matches what's shown in `docker images`.
 
 ### Option 2 (Source)
 
-This replication package is written in Python, but it requires R and Mosek installations
-for certain functions to work. Bash scripts require [GNU
-Parallel](https://savannah.gnu.org/projects/parallel/), installed via your package
-manager (e.g. `brew install parallel` for Homebrew users). Follow 1-4 below and check the
-installation.
+If Docker is not an option, use the host installation walkthrough in [source-install.md](./source-install.md) (./source-install.md). It covers:
+- Python 3.10 environment setup with pip requirements
+- R 4.4.0 + renv restore and the Rmosek builder steps
+- MOSEK 10.2.5 licensing/configuration and GNU Parallel
+- Verification commands (`python -m rpy2.situation`, `python test.py`, targeted Monte Carlo checks)
 
-**Note: Rmosek is not supported on aarch64 Linux. See [here](https://docs.mosek.com/10.2/rmosek/install-interface.html) for a list of supported platforms**
+Use this path only if you are comfortable managing those dependencies manually.
 
-1. (**Python**) To set up the Python environment, simply use the following
-to create an environment called `eb-replication` from the `environment.yml` file. We will
-need to activate the environment and work in it at all times.
-
-```bash
-# Before running, install conda by installing Anaconda distribution for python
-# https://www.anaconda.com/docs/getting-started/anaconda/install
-# See  https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html#creating-an-environment-from-an-environment-yml-file
-conda env create -f environment.yml
-conda activate eb-replication
-
-## If this didn't work, then a simple fall back is to create an empty environment and then use pip
-## Create and activate an empty environment with the correct python version
-# conda create -n eb-replication python=3.10
-# conda activate eb-replication
-
-## install using pip freshly without loading local cache
-# pip install --no-cache-dir -r requirements.txt
-```
-
-2. (**Mosek**) The code is last run with [Mosek
-10.2.5](https://www.mosek.com/downloads/10.2.5/) (Importantly, I think Mosek 11 introduces
-breaking changes for `REBayes` and should be avoided). To use Mosek, one needs to obtain a
-[license](https://www.mosek.com/license/request/?i=acp). Follow [Mosek
-installation, section 4.2-4.3](https://docs.mosek.com/10.2/install/installation.html) for instructions.
-
-
-3. (**R**) With an R installation (Last run with R version 4.4.0 (2024-04-24) -- "Puppy Cup"), ensure
-that [`renv`](https://rstudio.github.io/renv/articles/renv.html) is installed. Then, in an
-R session from the command line, run
-```R
-renv::restore() # Reads packages from ./renv.lock and installs them
-```
-
-4. (**Rmosek**) The last thing to do is to install `Rmosek`. The above should have
-   installed the package Rmosek, but it needs to be built manually.
-Now, in an R session, if we call `library(Rmosek)` we would expect
-```R
-> library(Rmosek)
-
-   The Rmosek meta-package is ready. Please call
-
-      mosek_attachbuilder(what_mosek_bindir)
-
-   to complete the installation. See also '?mosek_attachbuilder'.
-```
-
-Following the [`Rmosek`
-instructions](https://docs.mosek.com/latest/rmosek/install-interface.html), we install
-`Rmosek` like so. (Note, after installation, Rmosek's version would disagree with
-`renv.lock`. This would cause a warning "- The project is out-of-sync -- use `renv::status()` for details.", but it's safe to ignore.)
-```R
-# <RMOSEKDIR> is the directory that Mosek is installed in
-# e.g., ~/mosek/10.2/tools/platform/osxaarch64/rmosek
-source("<RMOSEKDIR>/builder.R")
-attachbuilder()
-install.rmosek()
-# We should get instruction "Please restart the R session for changes to take effect" at the end.
-```
-
-
-
-
-### Checking the installation
-Here are some tools to check if installation is successful. First, we can run `python -m rpy2.situation` and should expect the following.
-```bash
-❯ python -m rpy2.situation
-rpy2 version:
-3.5.16
-Python version:
-3.9.13 | packaged by conda-forge | (main, May 27 2022, 17:01:00)
-[Clang 13.0.1 ]
-Looking for R's HOME:
-    Environment variable R_HOME: None
-    Calling `R RHOME`: /Library/Frameworks/R.framework/Resources
-    Environment variable R_LIBS_USER: None
-R's value for LD_LIBRARY_PATH:
-
-R version:
-    In the PATH: R version 4.4.0 (2024-04-24) -- "Puppy Cup"
-    Loading R library from rpy2: OK
-Additional directories to load R packages from:
-None
-C extension compilation:
-  include:
-  ['/Library/Frameworks/R.framework/Resources/include']
-  libraries:
-  ['pcre2-8', 'lzma', 'bz2', 'z', 'icucore', 'dl', 'm', 'iconv']
-  library_dirs:
-  ['/opt/R/arm64/lib', '/opt/R/arm64/lib']
-  extra_compile_args:
-  ['-std=c99']
-  extra_link_args:
-  ['-F/Library/Frameworks/R.framework/..', '-framework', 'R']
-Directory for the R shared library:
-lib
-CFFI extension type
-  Environment variable: RPY2_CFFI_MODE
-  Value: CFFI_MODE.ANY
-  ABI: PRESENT
-  API: PRESENT
-```
-
-Next, we can run `test.py`, which tests core functionality in RPy2, and expect the following:
-```
-❯ python test.py
-- Project '~/Library/CloudStorage/Dropbox/research/empirical-bayes/replication' loaded. [renv 1.1.4]
-Call: lprobust
-
-Sample size (n)                              =    1000
-Polynomial order for point estimation (p)    =    1
-Order of derivative estimated (deriv)        =    0
-Polynomial order for confidence interval (q) =    2
-Kernel function                              =    Epanechnikov
-Bandwidth method                             =    imse-dpi
-
-
-
-Call:
-	NULL
-
-Data:  ( obs.);	Bandwidth 'bw' =
-
-       x                 y
- Min.   :-3.0196   Min.   :0.000000
- 1st Qu.:-1.2831   1st Qu.:0.000000
- Median : 0.4534   Median :0.000000
- Mean   : 0.4534   Mean   :0.003333
- 3rd Qu.: 2.1898   3rd Qu.:0.000000
- Max.   : 3.9263   Max.   :0.998168
-```
-
-We should also get the following image `test.png`
-
-![test.png](./test.png)
-
-
-To isolate whether issues are coming from `RPy2` or the underlying R installation, run
-`test.r` and we should expect the following:
-
-```bash
-❯ Rscript test.r
-Loading required package: Matrix
-Warning message:
-package ‘nprobust’ was built under R version 4.4.1
-Call: lprobust
-
-Sample size (n)                              =    100
-Polynomial order for point estimation (p)    =    1
-Order of derivative estimated (deriv)        =    0
-Polynomial order for confidence interval (q) =    2
-Kernel function                              =    Epanechnikov
-Bandwidth method                             =    imse-dpi
-
-
-Call:
-	NULL
-
-Data:  ( obs.);	Bandwidth 'bw' =
-
-       x                 y
- Min.   :-2.9932   Min.   :0.000000
- 1st Qu.:-1.6732   1st Qu.:0.000000
- Median :-0.3532   Median :0.000000
- Mean   :-0.3532   Mean   :0.003333
- 3rd Qu.: 0.9668   3rd Qu.:0.000000
- Max.   : 2.2867   Max.   :0.951492
-```
 
 ### Controlled Randomness
+
 Random seed is set at:
-- Line 181 of `covariate_additive_model.py`
+- Line 173 of `covariate_additive_model.py`
 - Line 226 of `empirical_exercise.py`
 
-Note: `REBayes::GLmix` uses `REBayes::KWDual` to interact with an underlying Mosek
-optimizer. This optimizer may introduce additional randomness which I do not control. As
-far as I am aware, there is no option to seed this randomness in `REBayes`.
+Note: `REBayes::GLmix` uses `REBayes::KWDual` to interact with an underlying MOSEK
+optimizer. This optimizer may introduce additional randomness that cannot be seeded from
+the Python side. As far as I'm aware, `REBayes` does not expose a seeding option for
+this solver.
 
 ### Memory, Runtime, Storage Requirements
 
-- <10 minutes (Reproducing from scored Monte Carlo outputs - i.e. starting from step 4 below)
-- 10-60 minutes (Reproducing from Monte Carlo outputs - i.e., starting from step 3 below)
-- 1-3 days (Full reproduction - i.e., starting from step 1 or step 2 below)
+- <10 minutes (reproducing from scored Monte Carlo outputs—i.e., starting from step 4)
+- 10–60 minutes (reproducing from Monte Carlo outputs—i.e., starting from step 3)
+- 1–3 days (full reproduction starting from step 1 or 2)
 
-The code was last run on a 2022 Mac Studio, 32GB RAM, Apple M1 Max.
+The code was last run on a 2022 Mac Studio, 32 GB RAM, Apple M1 Max.
 
 
 ## Description of programs/code and instruction to replicators
@@ -395,7 +221,7 @@ detailed below. `generate_assets.sh` simply runs all of them.
 | Content                     | Script                   |
 |------------------------------------------|--------------------------|
 | Figures 1–3                              | `./assets_introduction.py` |
-| Footnote 6 voice over                          | `./assets_introduction.py` |
+| Footnote 6 voice over                    | `./assets_introduction.py` |
 | Figures 4–5                              | `./assets_empirical.py`    |
 | Table OA5.1                              | `./assets_appendix.py`     |
 | Figures OA5.1–OA5.4                      | `./assets_appendix.py`     |
@@ -447,14 +273,28 @@ run `bash script.sh` to execute them.
 python build_data.py
 ```
 
+Note: if run inside the `eb-replication` service, then this overwrites the current file in
+`data/processed`. If one works with the container
+`eb-replication-test` instead of `eb-replication`, then `app/data/processed` in the
+container is mounted to `./data/processed_empty`.
+
 #### Step 2: Monte Carlo data generation
 
 The following bash commands runs each bash script and generates the Monte Carlo data.
 
-This is the most
+NB: This is the most
 time-consuming and error-prone step (see [NOTE](#note-on-replicating-monte-carlo-data) below): The output of this step is included in the replication
 package directly. Moreover, optionally, instead of fully replicating this step, one could verify a small subset of
 the Monte Carlo data. The [NOTE](#note-on-replicating-monte-carlo-data) below includes instructions for doing so.
+
+If one decides to run a full replication, before starting to replicate, **ensure that
+`data/simulated_posterior_means` is empty**.
+
+To enforce `data/simulated_posterior_means` is empty,
+start the test service with
+`docker compose up -d eb-replication-test` and work within the container
+`eb-replication-test` instead of `eb-replication`;
+`eb-replication-test` mounts an empty scratch directory at `/app/data/simulated_posterior_means` (in container) linked to `data/simulated_posterior_means_empty/` (local).
 
 ```bash
 # Run the Monte Carlo
@@ -471,12 +311,15 @@ rm -f logs/*          # Clear logs
 # (monte_carlo.sh coupled_bootstrap.sh weibull_model.sh) do not need to be run sequentially.
 # They can be run concurrently
 
-# With &, scripts run in the background of the terminal session. It prints a pid,
-# use `ps -p [pid]` to check and `kill [pid]` to kill if necessary.
+# With &, scripts run in the background of the terminal session and print a PID for the wrapper process.
+# That PID does not own the python workers; use `kill -- -[pid]` (note leading minus) or `pkill -P [pid]` to stop everything.
 
 # ------------------------------------------------
 # Calibrated simulation exercise
 # Time estimate: (1 minute per iteration x 15000 iterations) / min(#cores, 15)
+
+# The NUM_CORES options below are by default the maximum the code would benefit from.
+# Higher core counts won't break anything - the code takes a minimum.
 NUM_CORES=15 ./monte_carlo.sh &     # To monitor: tail -F logs/mc_error*
 
 # Validation exercise using coupled bootstrap
@@ -521,8 +364,10 @@ python generate_scores.py --simulator-name weibull --nsim 100                # ~
 
 ./generate_assets.sh
 ```
+
+
 ---
-#### <a name="parallel"></a> Parallelism
+#### Parallelism
 
 The .sh files in step 2 runs the following script in parallel **over `est_var`**
 ```bash
@@ -559,7 +404,7 @@ underlying data.
 
 ---
 ---
-#### <a name="note"></a> NOTE: on replicating Monte Carlo data
+#### NOTE: on replicating Monte Carlo data
 
 
 For some upstream reason having to do with MOSEK or REBayes, running monte_carlo.sh for many

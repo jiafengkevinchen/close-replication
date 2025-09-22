@@ -22,8 +22,6 @@ def load_and_reorder_data(est_var):
     return df
 
 
-est_var = "kfr_top20_black_pooled"
-seed = 94301
 SPLIT = 0.9
 c = np.sqrt((1 - SPLIT) / SPLIT)
 
@@ -172,7 +170,7 @@ def rank_score(posterior_means):
 def main(est_var, starting_seed, nsim):
 
     results = 0
-    for seed in tqdm(range(94301, 94301 + nsim), desc=f"{est_var}", total=nsim):
+    for seed in tqdm(range(starting_seed, starting_seed + nsim), desc=f"{est_var}", total=nsim):
         posterior_means, rank_table, mse_table, metadata = compute_posterior_means_additive(
             est_var, seed
         )
