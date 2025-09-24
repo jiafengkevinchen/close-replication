@@ -135,6 +135,8 @@ To remove the docker image when one's done:
 `docker rmi replication-eb-replication:latest`. Make sure
 `replication-eb-replication:latest` matches what's shown in `docker images`.
 
+Use `docker system prune -a --volumes` to reset everything.
+
 ### Option 2 (Source)
 
 If Docker is not an option, use the host installation walkthrough in [source-install.md](./source-install.md) (./source-install.md). It covers:
@@ -293,7 +295,8 @@ If one decides to run a full replication, before starting to replicate, **ensure
 To enforce `data/simulated_posterior_means` is empty,
 start the test service with
 `docker compose up -d eb-replication-test` and work within the container
-`eb-replication-test` instead of `eb-replication`;
+`eb-replication-test` instead of `eb-replication` (i.e.,
+`docker compose exec eb-replication-test bash`);
 `eb-replication-test` mounts an empty scratch directory at `/app/data/simulated_posterior_means` (in container) linked to `data/simulated_posterior_means_empty/` (local).
 
 ```bash
