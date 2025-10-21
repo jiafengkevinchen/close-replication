@@ -2,6 +2,8 @@ import seaborn as sns
 import numpy as np
 from matplotlib import pyplot as plt
 
+JITTER_SEED = 47329  # Reproducible jitter seed for vertical noise
+
 CORAL = "#F26D21"
 ALICE = "#107895"
 RUBY = "#9a2515"
@@ -38,6 +40,7 @@ method_names = {
 
 
 def plot_league_table_value_basic_eb(league_table, methods, legend_x=1.05):
+    rng = np.random.default_rng(JITTER_SEED)
     for i, method in enumerate(methods):
         method_name = method.replace("_nocov", "")
         nocov = "_nocov" in method
@@ -46,7 +49,7 @@ def plot_league_table_value_basic_eb(league_table, methods, legend_x=1.05):
         offset = (1 if nocov else -1) * 0.15
         plt.scatter(
             x=(league_table[method] - league_table["naive"]) * 100,
-            y=np.arange(len(league_table))[::-1] + offset + np.random.uniform(-0.1, 0.1),
+            y=np.arange(len(league_table))[::-1] + offset + rng.uniform(-0.1, 0.1),
             marker="o" if not nocov else "x",
             color=color,
             label=name + (" [no residualization]" if nocov else ""),
@@ -66,6 +69,7 @@ def plot_league_table_value_basic_eb(league_table, methods, legend_x=1.05):
 
 
 def plot_mse_league_table(league_table, methods, legend_x=1.05):
+    rng = np.random.default_rng(JITTER_SEED)
     for i, method in enumerate(methods):
         method_name = method.replace("_nocov", "")
         nocov = "_nocov" in method
@@ -74,7 +78,7 @@ def plot_mse_league_table(league_table, methods, legend_x=1.05):
         offset = (1 if nocov else -1) * 0.1
         plt.scatter(
             x=league_table["naive"] - league_table[method],
-            y=np.arange(len(league_table))[::-1] + offset + np.random.uniform(-0.05, 0.05),
+            y=np.arange(len(league_table))[::-1] + offset + rng.uniform(-0.05, 0.05),
             marker="o" if not nocov else "x",
             color=color,
             label=name + (" [no covariates]" if nocov else ""),

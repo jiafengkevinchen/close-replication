@@ -8,7 +8,6 @@ services:
       # Mount only output directories
       - ./results:/app/results
       - ./assets:/app/assets
-      # Not mounting the simulated_posterior_means_sample
       - ./data/raw:/app/data/raw
       - ./data/processed:/app/data/processed
       - ./data/simulated_posterior_means:/app/data/simulated_posterior_means
@@ -35,11 +34,12 @@ services:
     platform: linux/amd64
     container_name: eb-replication-test-env
     volumes:
-      # Mount only output directories
-      - ./results:/app/results
       - ./data/raw:/app/data/raw # Mount raw data only and not simulated posterior means
-      - ./data/processed_empty:/app/data/processed  # Mount processed data to an empty scratch directory
-      - ./data/simulated_posterior_means_empty:/app/data/simulated_posterior_means # Use an empty scratch directory
+      # Mount outputs to empty scratch directories
+      - ./data/processed_empty:/app/data/processed
+      - ./results_empty:/app/results
+      - ./assets_empty:/app/assets
+      - ./data/simulated_posterior_means_empty:/app/data/simulated_posterior_means
       # Mount MOSEK license from project directory
       - ./mosek.lic:/app/mosek.lic:ro
     environment:

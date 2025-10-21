@@ -307,7 +307,7 @@ for i, est_var in enumerate(ranks.index):
     )
 
 
-print("assets_appendix.py: Saving Table OA5.1 → assets/rank_table_covariate_additive_new.pdf")
+print("assets_appendix.py: Saving Table OA5.4 → assets/rank_table_covariate_additive_new.pdf")
 plt.savefig("assets/rank_table_covariate_additive_new.pdf", bbox_inches="tight")
 
 
